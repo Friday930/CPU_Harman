@@ -10,10 +10,10 @@ module DataPath(
     input   logic           adderSrcMuxSel,
     input   logic           outbuf,
     output  logic           iLe10,
-    output  logic   [7:0]   outport
+    output  logic   [7:0]   outPort
     );
 
-    logic   [7:0]           adderResult, sumSrcMuxData, iSrcMuxData, sumRegData, iRegData;
+    logic   [7:0]           adderResult, sumSrcMuxData, iSrcMuxData, sumRegData, iRegData, adderSrcMuxData;
 
     mux_2x1 U_SumSrcMux(
         .sel                (sumSrcMuxSel),
@@ -32,7 +32,7 @@ module DataPath(
     register U_SumReg(
         .clk                (clk),
         .reset              (reset),
-        .en                 (iEn),
+        .en                 (SumEn),
         .d                  (sumSrcMuxData),
         .q                  (sumRegData)
     );
@@ -49,14 +49,36 @@ module DataPath(
         .sel                (adderSrcMuxSel),
         .x0                 (sumRegData),
         .x1                 (8'b1),
-        .y                  (iSrcMuxData)
+        .y                  (adderSrcMuxData)
     );
+
+    comparator U_Comp_Le(
+        .a                  (iRegData),
+        .b                  (8'd10),
+        .le                 (iLe10)
+    );  
+
+    adder U_Adder(
+        .a                  (adderSrcMuxData),
+        .b                  (iRegData),
+        .sum                (adderResult)
+    ); 
+
+    register U_outBufReg(
+        .clk                (clk),
+        .reset              (reset),
+        .en                 (outbuf),
+        .d                  (sumRegData),
+        .q                  (outPort)
+    );
+    // assign                  outPort = outbuf ? sumRegData : 8'bz;
+
 endmodule
 
 module mux_2x1 (
     input   logic           sel,
-    input           [7:0]   x0,
-    input           [7:0]   x1,
+    input   logic   [7:0]   x0,
+    input   logic   [7:0]   x1,
     output  logic   [7:0]    y
 );
     always_comb begin : mux
