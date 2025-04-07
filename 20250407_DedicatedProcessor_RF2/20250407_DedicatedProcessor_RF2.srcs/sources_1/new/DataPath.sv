@@ -7,16 +7,17 @@ module DataPath (
     input  logic [2:0] readAddr1,
     input  logic [2:0] readAddr2,
     input  logic [2:0] writeAddr,
+    input  logic [2:0] ALUop,
     input  logic       writeEn,
     input  logic       outBuf,
     output logic       iLe10,
     output logic [7:0] outPort
 );
-    logic [7:0] adderResult, RFSrcMuxData, RFReadData1, RFReadData2;
+    logic [7:0] ALUResult, RFSrcMuxData, RFReadData1, RFReadData2;
 
     mux_2x1 U_RFSrcMux (
         .sel(RFSrcMuxSel),
-        .x0 (adderResult),
+        .x0 (ALUResult),
         .x1 (8'b1),
         .y  (RFSrcMuxData)
     );
@@ -34,21 +35,28 @@ module DataPath (
 
     comparator U_Comp_iLe10 (
         .a (RFReadData1),
-        .b (8'd10),
+        .b (RFReadData2),
         .le(iLe10)
     );
 
-    adder U_Adder (
+    // adder U_Adder (
+    //     .a  (RFReadData1),
+    //     .b  (RFReadData2),
+    //     .sum(adderResult)
+    // );
+
+    alu U_ALU (
         .a  (RFReadData1),
         .b  (RFReadData2),
-        .sum(adderResult)
+        .op (ALUop),
+        .out(ALUResult)
     );
 
     register U_OutReg (
         .clk(clk),
         .reset(reset),
         .en(outBuf),
-        .d(RFReadData1),
+        .d(ALUResult),
         .q(outPort)
     );
 
@@ -110,13 +118,32 @@ module comparator (
     input  logic [7:0] b,
     output logic       le
 );
-    assign le = (a <= b);
+    assign le = (a > b);
 endmodule
 
-module adder (
+// module adder (
+//     input  logic [7:0] a,
+//     input  logic [7:0] b,
+//     output logic [7:0] sum
+// );
+//     assign sum = a + b;
+// endmodule
+module alu (
     input  logic [7:0] a,
     input  logic [7:0] b,
-    output logic [7:0] sum
+    input  logic [2:0] op,
+    output logic [7:0] out
 );
-    assign sum = a + b;
+    always_comb begin
+        case (op)
+            3'b000: out = a + b;
+            3'b001: out = a - b;
+            3'b010: out = a & b;
+            3'b011: out = a | b;
+            3'b100: out = a ^ b;
+            3'b101: out = ~a;
+            3'b110: out = 1;
+            3'b111: out = 0;
+        endcase
+    end
 endmodule

@@ -10,11 +10,12 @@ module top_DedicatedProcessor (
     logic [2:0] readAddr1;
     logic [2:0] readAddr2;
     logic [2:0] writeAddr;
+    logic [2:0] ALUop;
     logic       writeEn;
     logic       outBuf;
     logic       iLe10;
 
     DataPath U_DataPath (.*);
-    ControlUnit U_ControlUnit (.*);
+    ControlUnit u_ControlUnit (.*);
 
 endmodule
