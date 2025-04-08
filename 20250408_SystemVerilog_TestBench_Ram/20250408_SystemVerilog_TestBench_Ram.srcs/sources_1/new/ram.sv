@@ -16,6 +16,6 @@ module ram (
         end
     end
 
-    assign intf.rData = mem[intf.data];
+    assign intf.rData = mem[intf.addr];
 
 endmodule
