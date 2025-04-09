@@ -61,8 +61,8 @@ module alu (
             4'b0010:   result = a << b; // SLL
             4'b0011:   result = a >> b; // SRL
             4'b0100:   result = a >>> b; // SRA
-            4'b0101:   result = (a < b) ? 1 : 0; // SLT
-            4'b0110:   result = ($unsigned(a) < $unsigned(b)) ? 1 : 0; // SLTU
+            4'b0101:   result = ($signed(a) < $signed(b)) ? 1 : 0; // SLT
+            4'b0110:   result = (a < b) ? 1 : 0; // SLTU
             4'b0111:   result = a ^ b; // XOR
             4'b1000:   result = a | b; // OR
             4'b1001:   result = a & b; // AND
