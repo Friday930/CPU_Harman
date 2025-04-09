@@ -6,6 +6,9 @@ module MCU (
 );
     logic [31:0] instrCode;
     logic [31:0] instrMemAddr;
+    logic        dataWe;
+    logic [31:0] dataAddr;
+    logic [31:0] dataWData;
 
     RV32I_Core U_Core (.*);
 
@@ -13,4 +16,13 @@ module MCU (
         .addr(instrMemAddr),
         .data(instrCode)
     );
+
+    ram U_RAM (
+        .clk  (clk),
+        .we   (dataWe),
+        .addr (dataAddr),
+        .wData(dataWData),
+        .rData()
+    );
+
 endmodule
