@@ -86,7 +86,7 @@ module alu (
             `OR: result = a | b;
             `AND: result = a & b;
             default: result = 32'bx;
-            // ` -> define
+            // ` -> define 
         endcase
     end
 endmodule
