@@ -13,7 +13,7 @@ module DataPath (
     // instr memory side port
     output logic [31:0] instrMemAddr,
     input  logic [31:0] instrCode,
-    // data memory side port
+    // data memory side port 
     output logic [31:0] dataAddr,
     output logic [31:0] dataWData,
     input  logic [31:0] dataRData
