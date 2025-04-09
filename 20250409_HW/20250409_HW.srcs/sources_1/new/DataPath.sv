@@ -181,6 +181,11 @@ module extend (
             `OP_TYPE_L: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
             `OP_TYPE_S:
             immExt = {{20{instrCode[31]}}, instrCode[31:25], instrCode[11:7]};
+            `OP_TYPE_I: begin
+                if (`SLL || `SRL || `SRA) begin
+                    immExt = 32'bx;
+                end else immExt = {{20{instrCode[31]}}, instrCode[31:20]};
+            end
             default: immExt = 32'bx;
         endcase
     end
