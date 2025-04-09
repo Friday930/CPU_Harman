@@ -10,12 +10,14 @@ module DataPath (
     input  logic        regFileWe,
     input  logic [ 3:0] aluControl,
     input  logic        aluSrcMuxSel,
+    input  logic        rDataSrcMuxSel,// 아니면 지우기
     output logic [31:0] dataAddr,
-    output logic [31:0] dataWData
+    output logic [31:0] dataWData,
+    input  logic [31:0] dataRData// 아니면 지우기
 );
     logic [31:0] aluResult, RFData1, RFData2;
     logic [31:0] PCSrcData, PCOutData;
-    logic [31:0] immExt, aluSrcMuxOut;
+    logic [31:0] immExt, aluSrcMuxOut, rDataSrcMuxOut;
 
     assign instrMemAddr = PCOutData;
     assign dataAddr     = aluResult;
@@ -32,6 +34,14 @@ module DataPath (
         .RData2(RFData2)
     );
 
+    // 아니면 지우기
+    mux_2x1 U_rDataSrcMux (
+        .sel(rDataSrcMuxSel),
+        .x1 (RFData1),
+        .x2 (dataRData),
+        .y  (rDataSrcMuxOut)
+    );
+
     mux_2x1 U_ALUSrcMux (
         .sel(aluSrcMuxSel),
         .x1 (RFData2),
@@ -41,7 +51,7 @@ module DataPath (
 
     alu U_ALU (
         .aluControl(aluControl),
-        .a         (RFData1),
+        .a         (rDataSrcMuxOut),
         .b         (aluSrcMuxOut),
         .result    (aluResult)
     );

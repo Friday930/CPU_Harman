@@ -9,6 +9,7 @@ module MCU (
     logic        dataWe;
     logic [31:0] dataAddr;
     logic [31:0] dataWData;
+    logic [31:0] dataRData;
 
     RV32I_Core U_Core (.*);
 
@@ -22,7 +23,7 @@ module MCU (
         .we   (dataWe),
         .addr (dataAddr),
         .wData(dataWData),
-        .rData()
+        .rData(dataRData)
     );
 
 endmodule

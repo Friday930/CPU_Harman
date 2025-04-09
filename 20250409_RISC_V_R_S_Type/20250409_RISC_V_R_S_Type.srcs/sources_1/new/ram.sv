@@ -10,6 +10,12 @@ module ram (
 
     logic [31:0] mem[0:9];  // test하므로 작게
 
+    initial begin
+        for (int i = 0; i < 10; i++) begin
+            mem[i] = 10 + i;
+        end
+    end
+
     always_ff @(posedge clk) begin
         if (we) begin
             mem[addr[31:2]] <= wData;
