@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 `include "defines.sv"
-  
+
 module ControlUnit (
     input  logic [31:0] instrCode,
     output logic        regFileWe,
