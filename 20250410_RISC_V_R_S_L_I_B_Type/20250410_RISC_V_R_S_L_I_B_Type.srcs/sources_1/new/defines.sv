@@ -9,11 +9,13 @@
 `define OR   4'b0110
 `define AND  4'b0111
 
-`define OP_TYPE_R 7'b0110011
-`define OP_TYPE_L 7'b0000011
-`define OP_TYPE_I 7'b0010011
-`define OP_TYPE_S 7'b0100011
-`define OP_TYPE_B 7'b1100011
+`define OP_TYPE_R  7'b0110011
+`define OP_TYPE_L  7'b0000011
+`define OP_TYPE_I  7'b0010011
+`define OP_TYPE_S  7'b0100011
+`define OP_TYPE_B  7'b1100011
+`define OP_TYPE_LU 7'b0110111
+`define OP_TYPE_AU 7'b0010111
 
 `define BEQ  3'b000
 `define BNE  3'b001

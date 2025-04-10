@@ -13,9 +13,9 @@ module RV32I_Core (
     logic       regFileWe;
     logic [3:0] aluControl;
     logic       aluSrcMuxSel;
-    logic       RFWDSrcMuxSel;
-    logic [2:0] compControl;
-    logic       PCSrcMuxSel;
+    logic [1:0] RFWDSrcMuxSel;
+    logic       branch;
+    logic       LUISrcMuxsel;
 
     ControlUnit U_ControlUnit (.*);
     DataPath U_DataPath (.*);
