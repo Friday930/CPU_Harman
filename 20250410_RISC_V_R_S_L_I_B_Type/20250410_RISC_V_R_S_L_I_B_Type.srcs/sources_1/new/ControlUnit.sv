@@ -19,13 +19,13 @@ module ControlUnit (
     assign {regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel} = signals;
 
     always_comb begin
-        signals = 4'b0;
+        signals = 3'b0;
         case (opcode)
-            // {regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel}
-            `OP_TYPE_R: signals = 4'b1_0_0_0;  // R-Type
-            `OP_TYPE_L: signals = 4'b1_1_0_1;  // L-Type
+            // {regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel} = signals
+            `OP_TYPE_R: signals = 4'b1_0_0_0;
+            `OP_TYPE_S: signals = 4'b0_1_1_0;
+            `OP_TYPE_L: signals = 4'b1_1_0_1;
             `OP_TYPE_I: signals = 4'b1_1_0_0;
-            `OP_TYPE_S: signals = 4'b0_1_1_0;  // S-Type
         endcase
     end
 
@@ -33,13 +33,13 @@ module ControlUnit (
         aluControl = 4'bx;
         case (opcode)
             `OP_TYPE_R: aluControl = operators;  // {func7[5], func3}
+            `OP_TYPE_S: aluControl = `ADD;
             `OP_TYPE_L: aluControl = `ADD;
             `OP_TYPE_I: begin
                 if (operators == 4'b1101) begin
                     aluControl = operators;
                 end else aluControl = {1'b0, operators[2:0]};  // {1'b0, func3}
             end
-            `OP_TYPE_S: aluControl = `ADD;
         endcase
     end
 endmodule
