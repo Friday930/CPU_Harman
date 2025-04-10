@@ -8,7 +8,9 @@ module DataPath (
     // control unit side port
     input  logic        regFileWe,
     input  logic [ 3:0] aluControl,
+    input  logic [ 2:0] compControl,
     input  logic        aluSrcMuxSel,
+    input  logic        PCSrcMuxSel,
     input  logic        RFWDSrcMuxSel,
     // instr memory side port
     output logic [31:0] instrMemAddr,
@@ -20,19 +22,19 @@ module DataPath (
 );
     logic [31:0] aluResult, RFData1, RFData2;
     logic [31:0] PCSrcData, PCOutData;
-    logic [31:0] immExt, aluSrcMuxOut, RFWDSrcMuxOut;
+    logic [31:0] immExt, aluSrcMuxOut, RFWDSrcMuxOut, PC_Btype, PCMuxData;
 
     assign instrMemAddr = PCOutData;
     assign dataAddr     = aluResult;
     assign dataWData    = RFData2;
 
     RegisterFile U_RegFile (
-        .clk(clk),
-        .we(regFileWe),
+        .clk   (clk),
+        .we    (regFileWe),
         .RAddr1(instrCode[19:15]),
         .RAddr2(instrCode[24:20]),
-        .WAddr(instrCode[11:7]),
-        .WData(RFWDSrcMuxOut),
+        .WAddr (instrCode[11:7]),
+        .WData (RFWDSrcMuxOut),
         .RData1(RFData1),
         .RData2(RFData2)
     );
@@ -53,35 +55,49 @@ module DataPath (
 
     alu U_ALU (
         .aluControl(aluControl),
-        .a(RFData1),
-        .b(aluSrcMuxOut),
-        .result(aluResult)
+        .a         (RFData1),
+        .b         (aluSrcMuxOut),
+        .result    (aluResult)
     );
 
     extend U_ImmExtend (
         .instrCode(instrCode),
-        .immExt(immExt)
+        .immExt   (immExt)
     );
 
     register U_PC (
-        .clk(clk),
+        .clk  (clk),
         .reset(reset),
-        .d(PCSrcData),
-        .q(PCOutData)
+        .d    (PCSrcData),
+        .q    (PCOutData)
+    );
+
+    comparator U_PC_Comparator (
+        .a          (RFData1),
+        .b          (RFData2),
+        .immExt     (immExt),
+        .compControl(compControl),
+        .res        (PC_Btype)
     );
 
     adder U_PC_Adder (
-        .a(32'd4),
+        .a(PCMuxData),
         .b(PCOutData),
         .y(PCSrcData)
     );
 
+    mux_2x1 U_PC_MUX_2x1 (
+        .sel(PCSrcMuxSel),
+        .x0 (32'd4),
+        .x1 (PC_Btype),
+        .y  (PCMuxData)
+    );
 
 endmodule
 
 
 module alu (
-    input  logic [ 1:0] aluControl,
+    input  logic [ 3:0] aluControl,
     input  logic [31:0] a,
     input  logic [31:0] b,
     output logic [31:0] result
@@ -163,6 +179,22 @@ module mux_2x1 (
     end
 endmodule
 
+// module mux_3x1 (
+//     input  logic        sel,
+//     input  logic [31:0] x0,
+//     input  logic [31:0] x1,
+//     input  logic [31:0] x2,
+//     output logic [31:0] y
+// );
+//     always_comb begin
+//         case (sel)
+//             1'b0:    y = x0;
+//             1'b1:    y = x1;
+//             default: y = 32'bx;
+//         endcase
+//     end
+// endmodule
+
 module extend (
     input  logic [31:0] instrCode,
     output logic [31:0] immExt
@@ -185,8 +217,56 @@ module extend (
                     default: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
                 endcase
             end
-
+            `OP_TYPE_B: immExt = {{20{instrCode[31]}}, instrCode[31:25], instrCode[11:7]};
             default: immExt = 32'bx;
         endcase
     end
+endmodule
+
+module comparator (
+    input  logic [31:0] a,
+    input  logic [31:0] b,
+    input  logic [31:0] immExt,
+    input  logic [ 2:0] compControl,
+    output logic [31:0] res
+);
+
+    always_comb begin
+        res = 0;
+        case (compControl)
+            `BEQ: begin
+                if (a == b) begin
+                    res = res + immExt;
+                end
+            end
+            `BNE: begin
+                if (a != b) begin
+                    res = res + immExt;
+                end
+            end
+            `BLT: begin
+                if ($signed(a) < $signed(b)) begin
+                    res = $signed(res) + $signed(immExt);
+                end
+            end
+            `BGE: begin
+                if ($signed(a) >= $signed(b)) begin
+                    res = $signed(res) + $signed(immExt);
+                end
+            end
+            `BLTU: begin
+                if (a < b) begin
+                    res = res + immExt;
+                end
+            end
+            `BGEU: begin
+                if (a >= b) begin
+                    res = res + immExt;
+                end
+            end
+            default: res = 32'bx;
+        endcase
+
+    end
+
 endmodule
