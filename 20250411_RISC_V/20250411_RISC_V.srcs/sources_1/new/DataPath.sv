@@ -9,10 +9,8 @@ module DataPath (
     input  logic        regFileWe,
     input  logic [ 3:0] aluControl,
     input  logic        aluSrcMuxSel,
-    input  logic [ 1:0] RFWDSrcMuxSel,
+    input  logic        RFWDSrcMuxSel,
     input  logic        branch,
-    input  logic        LUISrcMuxsel,
-    input  logic        JLSrcMuxSel,
     // instr memory side port
     output logic [31:0] instrMemAddr,
     input  logic [31:0] instrCode,
@@ -24,18 +22,13 @@ module DataPath (
     logic [31:0] aluResult, RFData1, RFData2;
     logic [31:0] PCSrcData, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut, RFWDSrcMuxOut;
-    logic [31:0]
-        PC4AdderResult,
-        PCImmAdderResult,
-        PCSrcMuxOut,
-        LUIMuxResult,
-        JLSrcMuxOut;
     logic btaken, PCSrcMuxSel;
+    logic [31:0] PC_Imm_AdderResult, PC_4_AdderResult, PCSrcMuxOut;
 
-    assign PCSrcMuxSel  = btaken & branch;
     assign instrMemAddr = PCOutData;
     assign dataAddr     = aluResult;
     assign dataWData    = RFData2;
+    assign PCSrcMuxSel  = btaken & branch;
 
     RegisterFile U_RegFile (
         .clk(clk),
@@ -55,28 +48,19 @@ module DataPath (
         .y  (aluSrcMuxOut)
     );
 
-    mux_4x1 U_RFWDSrcMux (
+    mux_2x1 U_RFWDSrcMux (
         .sel(RFWDSrcMuxSel),
-        .x0 (LUIMuxResult),
-        .x1 (dataRData),
-        .x2 (PCImmAdderResult),
-        .x3 (PC4AdderResult),
-        .y  (RFWDSrcMuxOut)
-    );
-
-    mux_2x1 U_LUI_Mux (
-        .sel(LUISrcMuxsel),
         .x0 (aluResult),
-        .x1 (immExt),
-        .y  (LUIMuxResult)
+        .x1 (dataRData),
+        .y  (RFWDSrcMuxOut)
     );
 
     alu U_ALU (
         .aluControl(aluControl),
-        .a         (RFData1),
-        .b         (aluSrcMuxOut),
-        .btaken    (btaken),
-        .result    (aluResult)
+        .a(RFData1),
+        .b(aluSrcMuxOut),
+        .btaken(btaken),
+        .result(aluResult)
     );
 
     extend U_ImmExtend (
@@ -84,38 +68,33 @@ module DataPath (
         .immExt(immExt)
     );
 
+    adder U_PC_Imm_Adder (
+        .a(immExt),
+        .b(PCOutData),
+        .y(PC_Imm_AdderResult)
+    );
+
     adder U_PC_4_Adder (
         .a(32'd4),
         .b(PCOutData),
-        .y(PC4AdderResult)
+        .y(PC_4_AdderResult)
     );
 
-    adder U_PC_Imm_Adder (
-        .a(immExt),
-        .b(JLSrcMuxOut),
-        .y(PCImmAdderResult)
-    );
-
-    mux_2x1 U_JLMux (
-        .sel(JLSrcMuxSel),
-        .x0 (PCOutData),
-        .x1 (RFData1),
-        .y  (JLSrcMuxOut)
-    );
 
     mux_2x1 U_PCSrcMux (
         .sel(PCSrcMuxSel),
-        .x0 (PC4AdderResult),
-        .x1 (PCImmAdderResult),
+        .x0 (PC_4_AdderResult),
+        .x1 (PC_Imm_AdderResult),
         .y  (PCSrcMuxOut)
     );
 
     register U_PC (
-        .clk  (clk),
+        .clk(clk),
         .reset(reset),
-        .d    (PCSrcMuxOut),
-        .q    (PCOutData)
+        .d(PCSrcMuxOut),
+        .q(PCOutData)
     );
+
 
 endmodule
 
@@ -217,26 +196,25 @@ module mux_2x1 (
     end
 endmodule
 
-module mux_4x1 (
-    input  logic [ 1:0] sel,
+module mux_5x1 (
+    input  logic [ 2:0] sel,
     input  logic [31:0] x0,
     input  logic [31:0] x1,
     input  logic [31:0] x2,
     input  logic [31:0] x3,
+    input  logic [31:0] x4,
     output logic [31:0] y
 );
-
     always_comb begin
-        y = 0;
         case (sel)
-            2'b00:   y = x0;
-            2'b01:   y = x1;
-            2'b10:   y = x2;
-            2'b11:   y = x3;
-            default: y = 0;
+            3'd0:    y = x0;
+            3'd1:    y = x1;
+            3'd2:    y = x2;
+            3'd3:    y = x3;
+            3'd4:    y = x4;
+            default: y = 32'bx;
         endcase
     end
-
 endmodule
 
 module extend (
@@ -270,22 +248,6 @@ module extend (
                 1'b0
             };
             `OP_TYPE_LU: immExt = {instrCode[31:12], 12'b0};
-            `OP_TYPE_AU: immExt = {instrCode[31:12], 12'b0};
-            `OP_TYPE_J:
-            immExt = {
-                // {12{instrCode[31]}},
-                // instrCode[19:13],
-                // instrCode[20],
-                // instrCode[30:21],
-                // 1'b0
-                {11{instrCode[31]}},   // 부호 확장: 11번 반복하여 11비트 채움
-                instrCode[31],         // imm[20]
-                instrCode[19:12],      // imm[19:12] → 8비트
-                instrCode[20],         // imm[11]
-                instrCode[30:21],      // imm[10:1] → 10비트
-                1'b0                   // 항상 0 (2바이트 정렬)
-            };
-            `OP_TYPE_JL: immExt = {{12{instrCode[31]}}, instrCode[31:20]};
             default: immExt = 32'bx;
         endcase
     end
