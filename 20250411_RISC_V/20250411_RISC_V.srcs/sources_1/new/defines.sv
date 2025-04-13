@@ -17,7 +17,7 @@
 `define OP_TYPE_LU 7'b0110111
 `define OP_TYPE_AU 7'b0010111
 `define OP_TYPE_J 7'b1101111
-`define OP_TYPE_JL 7'b01100111
+`define OP_TYPE_JL 7'b1100111
 
 `define BEQ 3'b000
 `define BNE 3'b001

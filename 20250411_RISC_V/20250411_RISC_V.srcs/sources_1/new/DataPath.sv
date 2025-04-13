@@ -25,8 +25,7 @@ module DataPath (
     logic [31:0] PCSrcData, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut, RFWDSrcMuxOut;
     logic btaken, PCSrcMuxSel;
-    logic [31:0]
-        PC_Imm_AdderResult, PC_4_AdderResult, PCSrcMuxOut, PCRFRD1ScrMuxOut;
+    logic [31:0] PC_Imm_AdderResult, PC_4_AdderResult, PCSrcMuxOut, PCRFRD1ScrMuxOut;
 
     assign instrMemAddr = PCOutData;
     assign dataAddr     = aluResult;
