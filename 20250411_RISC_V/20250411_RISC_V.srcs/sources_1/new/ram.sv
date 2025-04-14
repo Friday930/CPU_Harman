@@ -9,6 +9,10 @@ module ram (
 );
     logic [31:0] mem[0:9];
 
+    // initial begin
+    //     mem[2] = 32'hDEADBEEF; // 메모리 인덱스 2에 값 할당
+    // end
+
     always_ff @( posedge clk ) begin
         if (we) mem[addr[31:2]] <= wData;
     end
