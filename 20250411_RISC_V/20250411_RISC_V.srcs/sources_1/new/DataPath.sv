@@ -122,7 +122,7 @@ module alu (
     always_comb begin
         case (aluControl)
             `ADD:    result = a + b;
-            `SUB:    result = a - b;
+            `SUB:    result = $signed(a) - $signed(b);
             `SLL:    result = a << b;
             `SRL:    result = a >> b;
             `SRA:    result = $signed(a) >>> b[4:0];
