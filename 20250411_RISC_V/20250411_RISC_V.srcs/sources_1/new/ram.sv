@@ -21,7 +21,7 @@ module ram (
 endmodule
 
 /*
-		li		sp,0x100
+		li		sp,0x100 // stack pointer 반드시 잡아줘야함
 main:
         addi    sp,sp,-48
         sw      ra,44(sp)
