@@ -19,6 +19,7 @@
 !*.bd
 !*.edif
 !*.sv
+!*.mem
 #IP files
 #.xci: IP-core property file with core container disabled
 !*.xci
