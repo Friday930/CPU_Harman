@@ -52,7 +52,6 @@ module ControlUnit (
         next = state;
         case (state)
             FETCH: next = DECODE;
-
             DECODE: begin
                 case (opcode)
                     `OP_TYPE_R:  next = R_EXE;

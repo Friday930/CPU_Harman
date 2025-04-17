@@ -17,6 +17,7 @@ module RV32I_Core (
     logic        branch;
     logic        jal;
     logic        jalr;
+    logic        PCEn;
 
     ControlUnit U_ControlUnit (.*);
     DataPath U_DataPath (.*);
