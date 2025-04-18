@@ -35,6 +35,27 @@ module tb_APB_BUS ();
         .PREADY(PREADY0)
     );
 
+    APB_Slave U_Periph1 (
+        .*,
+        .PSEL  (PSEL0),
+        .PRDATA(PRDATA0),
+        .PREADY(PREADY0)
+    );
+
+    APB_Slave U_Periph2 (
+        .*,
+        .PSEL  (PSEL0),
+        .PRDATA(PRDATA0),
+        .PREADY(PREADY0)
+    );
+
+    APB_Slave U_Periph3 (
+        .*,
+        .PSEL  (PSEL0),
+        .PRDATA(PRDATA0),
+        .PREADY(PREADY0)
+    );
+
     always #5 PCLK = ~PCLK;
 
     initial begin
@@ -42,9 +63,52 @@ module tb_APB_BUS ();
         PRESET = 1;
         #10 PRESET = 0;
 
+        // write
         @(posedge PCLK);
-        #1 addr = 32'h1000_0000; write = 1; wdata = 10; transfer = 1;
+        #1 addr = 32'h1000_3000; write = 1; wdata = 10; transfer = 1;
+        @(posedge PCLK);
+        #1 transfer = 0;
+        wait (ready == 1'b1);
 
+        @(posedge PCLK);
+        #1 addr = 32'h1000_3004; write = 1; wdata = 11; transfer = 1;
+        @(posedge PCLK);
+        #1 transfer = 0;
+        wait (ready == 1'b1);
+
+        @(posedge PCLK);
+        #1 addr = 32'h1000_3008; write = 1; wdata = 12; transfer = 1;
+        @(posedge PCLK);
+        #1 transfer = 0;
+        wait (ready == 1'b1);
+
+        @(posedge PCLK);
+        #1 addr = 32'h1000_300c; write = 1; wdata = 13; transfer = 1;
+        @(posedge PCLK);
+        #1 transfer = 0;
+        wait (ready == 1'b1);
+
+        // read
+        @(posedge PCLK);
+        #1 addr = 32'h1000_3000; write = 0; transfer = 1;
+        @(posedge PCLK);
+        #1 transfer = 0;
+        wait (ready == 1'b1);
+
+        @(posedge PCLK);
+        #1 addr = 32'h1000_3004; write = 0; transfer = 1;
+        @(posedge PCLK);
+        #1 transfer = 0;
+        wait (ready == 1'b1);
+
+        @(posedge PCLK);
+        #1 addr = 32'h1000_3008; write = 0; transfer = 1;
+        @(posedge PCLK);
+        #1 transfer = 0;
+        wait (ready == 1'b1);
+
+        @(posedge PCLK);
+        #1 addr = 32'h1000_300c; write = 0; transfer = 1;
         @(posedge PCLK);
         #1 transfer = 0;
         wait (ready == 1'b1);
