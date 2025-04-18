@@ -31,7 +31,7 @@ module APB_Slave (
                         2'd0: slv_reg0 <= PWDATA;
                         2'd1: slv_reg1 <= PWDATA;
                         2'd2: slv_reg2 <= PWDATA;
-                        2'd3: slv_reg2 <= PWDATA;
+                        2'd3: slv_reg3 <= PWDATA;
                     endcase
                 end else begin
                     PRDATA <= 32'bx;
@@ -39,7 +39,7 @@ module APB_Slave (
                         2'd0: PRDATA <= slv_reg0;
                         2'd1: PRDATA <= slv_reg1;
                         2'd2: PRDATA <= slv_reg2;
-                        2'd3: PRDATA <= slv_reg2;
+                        2'd3: PRDATA <= slv_reg3;
                     endcase
                 end
             end
