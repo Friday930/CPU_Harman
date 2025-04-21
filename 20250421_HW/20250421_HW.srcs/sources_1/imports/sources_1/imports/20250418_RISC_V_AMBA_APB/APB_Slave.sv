@@ -1,45 +1,6 @@
 `timescale 1ns / 1ps
 
-module GPIO_Periph (
-    input  logic        PCLK,
-    input  logic        PRESET,
-    // APB Interface Signals
-    input  logic [ 3:0] PADDR,
-    input  logic [31:0] PWDATA,
-    input  logic        PWRITE,
-    input  logic        PENABLE,
-    input  logic        PSEL,
-    output logic [31:0] PRDATA,
-    output logic        PREADY,
-    // inoutport signals
-    inout  logic [ 7:0] io
-);
-
-    logic [7:0] moder;
-    logic [7:0] idr;
-
-    APB_Slave_GPIO U_APB_Intf_GPIO (.*);
-    GPI U_GPI (.*);
-endmodule
-
-module GPIO (
-    input  logic [7:0] moder,
-    input  logic [7:0] odr,
-    output logic [7:0] idr,
-    inout  logic [7:0] io
-);
-
-    genvar i;
-    generate
-        for (i = 0;i < 8;i++) begin
-            assign io[i] = moder[i] ? odr[i] : 1'bz;
-            assign idr[i] = ~moder[i] ? io : 1'bz;
-        end
-    endgenerate
-
-endmodule
-
-module APB_Slave_GPIO (
+module APB_Slave (
     // global signal
     input  logic        PCLK,
     input  logic        PRESET,
@@ -51,16 +12,14 @@ module APB_Slave_GPIO (
     input  logic        PSEL,
     output logic [31:0] PRDATA,
     output logic        PREADY,
-    // internal signals (GPIO)
+    // internal signals (GPO)
     output logic [ 7:0] moder,
-    output logic [ 7:0] odr,
-    input  logic [ 7:0] idr
+    output logic [ 7:0] odr
 );
-    logic [31:0] slv_reg0, slv_reg1, slv_reg2;
+    logic [31:0] slv_reg0, slv_reg1;//, slv_reg2, slv_reg3;
 
     assign moder = slv_reg0[7:0];
     assign odr   = slv_reg1[7:0];
-    assign idr   = slv_reg2[7:0];
 
     always_ff @(posedge PCLK, posedge PRESET) begin
         if (PRESET) begin
@@ -75,7 +34,7 @@ module APB_Slave_GPIO (
                     case (PADDR[3:2])
                         2'd0: slv_reg0 <= PWDATA;
                         2'd1: slv_reg1 <= PWDATA;
-                        2'd2: ;
+                        // 2'd2: slv_reg2 <= PWDATA;
                         // 2'd3: slv_reg3 <= PWDATA;
                     endcase
                 end else begin
@@ -83,7 +42,7 @@ module APB_Slave_GPIO (
                     case (PADDR[3:2])
                         2'd0: PRDATA <= slv_reg0;
                         2'd1: PRDATA <= slv_reg1;
-                        2'd2: PRDATA <= slv_reg2;
+                        // 2'd2: PRDATA <= slv_reg2;
                         // 2'd3: PRDATA <= slv_reg3;
                     endcase
                 end

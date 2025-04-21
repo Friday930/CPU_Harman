@@ -17,9 +17,10 @@ module GPIO_Periph (
 
     logic [7:0] moder;
     logic [7:0] idr;
+    logic [7:0] odr;
 
     APB_Slave_GPIO U_APB_Intf_GPIO (.*);
-    GPI U_GPI (.*);
+    GPIO U_GPIO (.*);
 endmodule
 
 module GPIO (
