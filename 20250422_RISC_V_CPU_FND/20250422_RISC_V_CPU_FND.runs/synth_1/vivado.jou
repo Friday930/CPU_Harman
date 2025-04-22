@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Tue Apr 22 15:05:40 2025
+# Process ID: 12616
+# Current directory: C:/CPU_Harman/20250422_RISC_V_CPU_FND/20250422_RISC_V_CPU_FND.runs/synth_1
+# Command line: vivado.exe -log MCU.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source MCU.tcl
+# Log file: C:/CPU_Harman/20250422_RISC_V_CPU_FND/20250422_RISC_V_CPU_FND.runs/synth_1/MCU.vds
+# Journal file: C:/CPU_Harman/20250422_RISC_V_CPU_FND/20250422_RISC_V_CPU_FND.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source MCU.tcl -notrace
