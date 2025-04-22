@@ -6,7 +6,8 @@ module MCU (
 
     // output logic [7:0] GPOA,
     // input  logic [7:0] GPIB,
-    inout  logic [7:0] GPIO
+    inout  logic [7:0] GPIOA,
+    inout  logic [7:0] GPIOB
 );
     // global signal
     logic        PCLK;
@@ -18,16 +19,16 @@ module MCU (
     logic        PENABLE;
     logic        PSEL_RAM;
     // logic        PSEL_GPO;
-    // logic        PSEL_GPI;
-    logic        PSEL_GPIO;
+    logic        PSEL_GPIOA;
+    logic        PSEL_GPIOB;
     logic [31:0] PRDATA_RAM;
     // logic [31:0] PRDATA_GPO;
-    // logic [31:0] PRDATA_GPI;
-    logic [31:0] PRDATA_GPIO;
+    logic [31:0] PRDATA_GPIOA;
+    logic [31:0] PRDATA_GPIOB;
     logic        PREADY_RAM;
     // logic        PREADY_GPO;
-    // logic        PREADY_GPI;
-    logic        PREADY_GPIO;
+    logic        PREADY_GPIOA;
+    logic        PREADY_GPIOB;
     // Internal Interface Signals
     // CPU - APB_Master Signals
     logic        transfer;
@@ -70,12 +71,12 @@ module MCU (
         .PSEL3  (PSEL_GPIO),
         .PRDATA0(PRDATA_RAM),
         .PRDATA1(PRDATA_GPO),
-        .PRDATA2(PRDATA_GPI),
-        .PRDATA3(PRDATA_GPIO),
+        .PRDATA2(PRDATA_GPIOA),
+        .PRDATA3(PRDATA_GPIOB),
         .PREADY0(PREADY_RAM),
         .PREADY1(PREADY_GPO),
-        .PREADY2(PREADY_GPI),
-        .PREADY3(PREADY_GPIO)
+        .PREADY2(PREADY_GPIOA),
+        .PREADY3(PREADY_GPIOB)
     );
 
     ram U_RAM (
@@ -94,20 +95,20 @@ module MCU (
     //     .outPort(GPOA)
     // );
 
-    // GPI_Periph U_GPIB (
-    //     .*,
-    //     .PSEL  (PSEL_GPI),
-    //     .PRDATA(PRDATA_GPI),
-    //     .PREADY(PREADY_GPI),
-    //     .inPort(GPIB)
-    // );
-
-    GPIO_Periph u_GPIO_Periph (
+    GPIO_Periph U_GPIOA (
         .*,
-        .PSEL  (PSEL_GPIO),
-        .PRDATA(PRDATA_GPIO),
-        .PREADY(PREADY_GPIO),
-        .io    (GPIO)
+        .PSEL  (PSEL_GPIOA),
+        .PRDATA(PRDATA_GPIOA),
+        .PREADY(PREADY_GPIOA),
+        .io(GPIOA)
+    );
+
+    GPIO_Periph U_GPIOB (
+        .*,
+        .PSEL  (PSEL_GPIOB),
+        .PRDATA(PRDATA_GPIOB),
+        .PREADY(PREADY_GPIOB),
+        .io    (GPIOB)
     );
 
 
