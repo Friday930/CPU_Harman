@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Thu Apr 24 09:52:29 2025
+# Process ID: 14896
+# Current directory: C:/CPU_Harman/20250424_RISC_V_CPU_FND_Counter_dp
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent17572 C:\CPU_Harman\20250424_RISC_V_CPU_FND_Counter_dp\20250424_RISC_V_CPU_FND_Counter_dp.xpr
+# Log file: C:/CPU_Harman/20250424_RISC_V_CPU_FND_Counter_dp/vivado.log
+# Journal file: C:/CPU_Harman/20250424_RISC_V_CPU_FND_Counter_dp\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/CPU_Harman/20250424_RISC_V_CPU_FND_Counter_dp/20250424_RISC_V_CPU_FND_Counter_dp.xpr
