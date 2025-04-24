@@ -18,7 +18,7 @@ module ram (
     end
 
     assign rData = mem[addr[31:2]];
-endmodule 
+endmodule
 
 /*
 void sort(int *pData, int size);
