@@ -32,10 +32,9 @@ interface APB_Slave_Intferface;
     logic        PSEL;
     logic [31:0] PRDATA;
     logic        PREADY;
-    // internal signals
-    logic [ 7:0] fcr;
-    logic [13:0] fdr;
-    logic [ 3:0] fpr;
+    // outport signals
+    logic [ 3:0] fndCom;
+    logic [ 7:0] fndFont;
 endinterface  //APB_Slave_Intferface
 
 class generator;
@@ -125,9 +124,8 @@ class monitor;
             fnd_tr.PSEL    = fnd_intf.PSEL;
             fnd_tr.PRDATA  = fnd_intf.PRDATA;
             fnd_tr.PREADY  = fnd_intf.PREADY;
-            fnd_tr.fcr     = fnd_intf.fcr;
-            fnd_tr.fdr     = fnd_intf.fdr;
-            fnd_tr.fpr     = fnd_intf.fpr;
+            fnd_tr.fndCom  = fnd_intf.fndCom;
+            fnd_tr.fndFont = fnd_intf.fndFont;
             fnd_tr.display("MON");
             Mon2SCB_mbox.put(fnd_tr);
             @(posedge fnd_intf.PCLK);
@@ -142,11 +140,66 @@ class scoreboard;
     transaction fnd_tr;
     event gen_next_event;
 
+    logic [31:0] refFndReg[0:2];
+    int refFndFont[16] = '{
+        8'hc0,
+        8'hf9,
+        8'ha4,
+        8'hb0,
+        8'h99,
+        8'h92,
+        8'h82,
+        8'hf8,
+        8'h80,
+        8'h90,
+        8'h88,
+        8'h83,
+        8'hc6,
+        8'ha1,
+        8'h86,
+        8'h8e
+    };
 
-
-    function new();
-
+    function new(mailbox#(transaction) Mon2SCB_mbox, event gen_next_event);
+        this.Mon2SCB_mbox   = Mon2SCB_mbox;
+        this.gen_next_event = gen_next_event;
+        for (int i = 0; i < 3; i++) begin
+            refFndReg[i] = 0;
+        end
     endfunction  //new()
+
+    task run();
+        forever begin
+            Mon2SCB_mbox.get(fnd_tr);
+            fnd_tr.display("SCB");
+            if (fnd_tr.PWRITE) begin
+                refFndReg[fnd_tr.PADDR[3:2]] = fnd_tr.PWDATA;
+                if (refFndFont[refFndReg[2]] == fnd_tr.fndFont) begin  // PASS
+                    $display("FND Font PASS");
+                end else begin  // FAIL
+                    $display("FND Font FAIL");
+                end
+
+                if (refFndReg[0] == 0) begin  // en = 0 : fndCom == 4'b1111
+                    if (4'hf == fnd_tr.fndCom) begin
+                        $display("FND Enable PASS");
+                    end else begin
+                        $display("FND Enable FAIL");
+                    end
+                end else begin  // en = 1
+                    if (refFndReg[1] == ~fnd_tr.fndCom[3:0]) begin
+                        $display("FND ComPort PASS");
+                    end else begin
+                        $display("FND ComPort FAIL");
+                    end
+                end
+            end else begin
+
+            end
+            ->gen_next_event;
+        end
+    endtask  //
+
 endclass  //scoreboard
 
 class environment;
@@ -165,8 +218,8 @@ class environment;
         this.Mon2SCB_mbox = new();
         this.fnd_gen      = new(Gen2Drv_mbox, gen_next_event);
         this.fnd_drv      = new(fnd_intf, Gen2Drv_mbox);
-        this.fnd_mon      = new(fnd_intf, Mon2SCB_mbox);
-        // this.fnd_scb      = new(Mon2SCB_mbox, gen_next_event);
+        this.fnd_mon      = new(Mon2SCB_mbox, fnd_intf);
+        this.fnd_scb      = new(Mon2SCB_mbox, gen_next_event);
     endfunction  //new()
 
     task run(int count);
@@ -202,7 +255,7 @@ module tb_fndController_APB_Periph ();
     );
 
     initial begin
-        fnd_intf.PCLK = 0;
+        fnd_intf.PCLK   = 0;
         fnd_intf.PRESET = 1;
         #10 fnd_intf.PRESET = 0;
         fnd_env = new(fnd_intf);
