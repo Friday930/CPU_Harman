@@ -9,3 +9,4 @@
 # Log file: C:/CPU_Harman/20250423_RISC_V_CPU_FND_COUNTER/20250423_RISC_V_CPU_FND_Counter.runs/synth_1/MCU.vds
 # Journal file: C:/CPU_Harman/20250423_RISC_V_CPU_FND_COUNTER/20250423_RISC_V_CPU_FND_Counter.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
+source MCU.tcl -notrace
