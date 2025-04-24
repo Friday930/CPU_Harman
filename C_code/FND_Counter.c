@@ -1,150 +1,134 @@
 #include <stdint.h>
 
-#define __IO            volatile
+#define __IO    volatile // 최적화 하지말아라 라는 의미, register 앞에 자주 붙인다고 함
 
-typedef struct {
+typedef struct{
     __IO uint32_t MODER;
     __IO uint32_t ODR;
 } GPO_TypeDef;
 
-typedef struct {
+typedef struct{
     __IO uint32_t MODER;
     __IO uint32_t IDR;
 } GPI_TypeDef;
 
-typedef struct {
+typedef struct{
     __IO uint32_t MODER;
     __IO uint32_t IDR;
     __IO uint32_t ODR;
 } GPIO_TypeDef;
-
-typedef struct {
+typedef struct{
     __IO uint32_t FCR;
-    __IO uint32_t FMR;
     __IO uint32_t FDR;
+    __IO uint32_t FPR;
 } FND_TypeDef;
-
-#define APB_BASEADDR    0x10000000
+#define APB_BASEADDR     0x10000000
 #define GPOA_BASEADDR   (APB_BASEADDR + 0x1000)
 #define GPIB_BASEADDR   (APB_BASEADDR + 0x2000)
-#define GPIOC_BASEADDR  (APB_BASEADDR + 0x3000)
-#define GPIOD_BASEADDR  (APB_BASEADDR + 0x4000)
-#define FND_BASEADDR    (APB_BASEADDR + 0x5000)
+#define GPIOC_BASEADDR   (APB_BASEADDR + 0x3000)
+#define GPIOD_BASEADDR   (APB_BASEADDR + 0x4000)
+#define FND_BASEADDR   (APB_BASEADDR + 0x5000)
+#define GPOA            ((GPO_TypeDef *) GPOA_BASEADDR) //                  ->10001000 
+#define GPIB            ((GPI_TypeDef *) GPIB_BASEADDR) //                  ->10001000 
+#define GPIOC            ((GPIO_TypeDef *) GPIOC_BASEADDR) //                  ->10001000 
+#define GPIOD            ((GPIO_TypeDef *) GPIOD_BASEADDR)
+#define FNDE            ((FND_TypeDef *) FND_BASEADDR)
 
-#define GPOA            ((GPO_TypeDef *) GPOA_BASEADDR)
-#define GPIB            ((GPI_TypeDef *) GPIB_BASEADDR)
-#define GPIOC           ((GPIO_TypeDef *) GPIOC_BASEADDR)
-#define GPIOD           ((GPIO_TypeDef *) GPIOD_BASEADDR)
-#define FND             ((FND_TypeDef *) FND_BASEADDR)
+#define FND_ON           1
+#define FND_OFF          0
 
-#define GPOA_MODER      *(uint32_t *)(GPOA_BASEADDR + 0x00)
-#define GPOA_ODR        *(uint32_t *)(GPOA_BASEADDR + 0x04)
-#define GPIB_MODER      *(uint32_t *)(GPIB_BASEADDR + 0x00)
-#define GPIB_IDR        *(uint32_t *)(GPIB_BASEADDR + 0x04)
-
-#define FND_OFF         0
-#define FND_ON          1
 
 void delay(int n);
-
 void LED_init(GPIO_TypeDef *GPIOx);
 void LED_write(GPIO_TypeDef *GPIOx, uint32_t data);
+void switch_init(GPIO_TypeDef *GPIOx);
+void FND_writeDot(FND_TypeDef *FNDx, uint32_t dot_mask);  // ← 이거 필요
 
-void Switch_init(GPIO_TypeDef *GPIOx);
-uint32_t Switch_read(GPIO_TypeDef *GPIOx);
+uint32_t switch_read(GPIO_TypeDef *GPIOx);
 
-// fnd driver function
-void FND_init(FND_TypeDef *fnd, uint32_t ON_OFF);
-void FND_writeCom(FND_TypeDef *fnd, uint32_t comport);
-void FND_writeData(FND_TypeDef *fnd, uint32_t data);
-
+void FND_init(FND_TypeDef *FNDx,uint32_t ON_OFF);
+void FND_writeData(FND_TypeDef *FNDx, uint32_t data);
 int main(){
-    LED_init(GPIOC);
-    Switch_init(GPIOD);
-    FND_init(FND, FND_ON);
+    LED_init(GPIOC);               // LED 초기화
+    switch_init(GPIOD);            // 스위치 초기화
+    FND_init(FNDE, FND_ON);        // FND 켬
 
+    uint32_t temp;
     uint32_t count = 0;
-    uint32_t digit1, digit2, digit3, digit4;
-    
-    while(1){
-        // 스위치 상태에 따라 FND On/Off 제어
-        // if (Switch_read(GPIOD) == 0x00) {
-        //     FND_init(FND, FND_OFF);
-        // } else {
-        //     FND_init(FND, FND_ON);
-        // }
-        
-        // 각 자릿수 추출
-        digit1 = count % 10;          // 1의 자리
-        digit2 = (count / 10) % 10;   // 10의 자리
-        digit3 = (count / 100) % 10;  // 100의 자리
-        digit4 = (count / 1000) % 10; // 1000의 자리
-        
-        // 첫 번째 FND (1의 자리)
-        FND_writeCom(FND, (1<<0));
-        FND_writeData(FND, digit1);
-        delay(1);
-        
-        // 두 번째 FND (10의 자리)
-        FND_writeCom(FND, (1<<1));
-        FND_writeData(FND, digit2);
-        delay(1);
-        
-        // 세 번째 FND (100의 자리)
-        FND_writeCom(FND, (1<<2));
-        FND_writeData(FND, digit3);
-        delay(1);
-        
-        // 네 번째 FND (1000의 자리)
-        FND_writeCom(FND, (1<<3));
-        FND_writeData(FND, digit4);
-        delay(1);
-        
-        // 카운트 증가 및 9999 이후 0으로 초기화
-        count++;
-        if(count > 9999) {
+    uint32_t dot_state = 0;
+
+    while(1)
+    {
+        temp = switch_read(GPIOD); // 스위치 상태 읽기
+
+        if (temp == 0x00) {
+            FND_init(FNDE, FND_OFF);
             count = 0;
         }
-        
-        // 카운트 속도 조절을 위한 딜레이
-        delay(5000);  
+        else {
+            FND_init(FNDE, FND_ON);
+        }
+
+        FND_writeData(FNDE, count);  // 카운트 값을 표시
+
+       if (dot_state == 0) {
+            FND_writeDot(FNDE, 0xF);  // DOT ON
+            dot_state = 1;
+            
+        } else {
+            FND_writeDot(FNDE, 0x0);  // DOT OFF
+            dot_state = 0;
+            
+        }
+
+
+        if (count == 9999) {
+            count = 0;
+        } else {
+            count++;
+        }
+
+        delay(5000); // 0.5초 지연
     }
+
     return 0;
 }
 
 void delay(int n){
-    uint32_t temp = 0;
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < 1000; j++){
-            temp++;
+    uint32_t temp =0;
+    for (int i=0; i<n;i++){
+        temp = 0;
+        for(int j=0; j<500;j++){
+            temp ++ ;
         }
     }
 }
 
-void LED_init(GPIO_TypeDef *GPIOx){
-    GPIOx->MODER = 0xff;
+void LED_init(GPIO_TypeDef *GPIOx)
+{
+    GPIOx->MODER = 0xff;    // *(GPOx) = 0xff
 }
-
-void LED_write(GPIO_TypeDef *GPIOx, uint32_t data){
-    GPIOx->ODR = data;
+void LED_write(GPIO_TypeDef *GPIOx, uint32_t data)
+{
+    GPIOx->ODR = data;  // *(GPOx + 8) = 0xff
 }
-
-void Switch_init(GPIO_TypeDef *GPIOx){
-    GPIOx->MODER = 0x00;
+void switch_init(GPIO_TypeDef *GPIOx)
+{
+    GPIOx->MODER = 0x00;  // *(GPOx) = 0xff
 }
-
-uint32_t Switch_read(GPIO_TypeDef *GPIOx){
+uint32_t switch_read(GPIO_TypeDef *GPIOx)
+{
     return GPIOx->IDR;
 }
-
-void FND_init(FND_TypeDef *fnd, uint32_t ON_OFF){
-    fnd->FCR = ON_OFF;
+void FND_init(FND_TypeDef *FNDx, uint32_t ON_OFF)
+{
+    FNDx->FCR = ON_OFF;
 }
-
-void FND_writeCom(FND_TypeDef *fnd, uint32_t comport){
-    fnd->FMR = comport;
+void FND_writeData(FND_TypeDef *FNDx, uint32_t data)
+{
+    FNDx->FDR = data;
 }
-
-void FND_writeData(FND_TypeDef *fnd, uint32_t data){
-    fnd->FDR = data;
+void FND_writeDot(FND_TypeDef *FNDx, uint32_t dot_mask)
+{
+    FNDx->FPR = dot_mask;
 }
