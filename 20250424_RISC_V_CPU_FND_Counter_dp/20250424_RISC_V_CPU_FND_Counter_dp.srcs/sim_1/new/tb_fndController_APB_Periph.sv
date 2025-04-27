@@ -271,7 +271,7 @@ class scoreboard;
 
     task run();
         logic [3:0] font_index;
-        logic dot_expected; 
+        logic dot_expected;
         
         forever begin
             Mon2SCB_mbox.get(fnd_tr);
