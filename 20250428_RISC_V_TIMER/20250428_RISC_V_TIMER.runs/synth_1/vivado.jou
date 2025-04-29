@@ -9,3 +9,4 @@
 # Log file: C:/CPU_Harman/20250428_RISC_V_TIMER/20250428_RISC_V_TIMER.runs/synth_1/MCU.vds
 # Journal file: C:/CPU_Harman/20250428_RISC_V_TIMER/20250428_RISC_V_TIMER.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
+source MCU.tcl -notrace

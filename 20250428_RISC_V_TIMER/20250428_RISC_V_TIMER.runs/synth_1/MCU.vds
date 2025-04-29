@@ -9,3 +9,12 @@
 # Log file: C:/CPU_Harman/20250428_RISC_V_TIMER/20250428_RISC_V_TIMER.runs/synth_1/MCU.vds
 # Journal file: C:/CPU_Harman/20250428_RISC_V_TIMER/20250428_RISC_V_TIMER.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
+source MCU.tcl -notrace
+Command: synth_design -top MCU -part xc7a35tcpg236-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tcpg236-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 15648
