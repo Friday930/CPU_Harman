@@ -25,8 +25,8 @@
 !*.xci
 #*.dcp (checkpoint files: better be ignored!)
 #!*.dcp
-!*.vds
-!*.pb
+#!*.vds
+#!*.pb
 #All bd comments and layout coordinates are stored within .ui
 !*.ui
 !*.ooc
