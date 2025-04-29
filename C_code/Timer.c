@@ -76,50 +76,11 @@ void TIM_writePrescaler(TIM_TypeDef *tim, uint32_t psc);
 void TIM_writeAutoReload(TIM_TypeDef *tim, uint32_t arr); // write
 void TIM_clear(TIM_TypeDef *tim);
 
-void func1(uint32_t *prevTime, uint32_t *data){
-    uint32_t curTime = TIM_readCounter(TIM0);
-    if (curTime - *prevTime < 200) return;
-    *prevTime = curTime;
-    
-    *data ^= 1<<1;
-    LED_write(GPIOD, *data);
-}
-
-void func2(uint32_t *prevTime, uint32_t *data){
-    uint32_t curTime = TIM_readCounter(TIM0);
-    if (curTime - *prevTime < 500) return;
-    *prevTime = curTime;
-
-    *data ^= 1<<2;
-    LED_write(GPIOD, *data);
-}
-
-void func3(uint32_t *prevTime, uint32_t *data){
-    uint32_t curTime = TIM_readCounter(TIM0);
-    if (curTime - *prevTime < 1000) return;
-    *prevTime = curTime;
-    
-    *data ^= 1<<3;
-    LED_write(GPIOD, *data);
-}
-
-void func4(uint32_t *prevTime, uint32_t *data){
-    uint32_t curTime = TIM_readCounter(TIM0);
-    if (curTime - *prevTime < 1500) return;
-    *prevTime = curTime;
-    
-    *data ^= 1<<4;
-    LED_write(GPIOD, *data);
-}
-
-void power(uint32_t *prevTime, uint32_t *data){
-    uint32_t curTime = TIM_readCounter(TIM0);
-    if (curTime - *prevTime < 500) return;
-    *prevTime = curTime;
-    
-    *data ^= 1<<0;
-    LED_write(GPIOD, *data);
-}
+void func1(uint32_t *prevTime, uint32_t *data);
+void func2(uint32_t *prevTime, uint32_t *data);
+void func3(uint32_t *prevTime, uint32_t *data);
+void func4(uint32_t *prevTime, uint32_t *data);
+void power(uint32_t *prevTime, uint32_t *data);
 
 enum {FUNC1, FUNC2, FUNC3, FUNC4};
 
@@ -270,6 +231,52 @@ void TIM_clear(TIM_TypeDef *tim){
 =============================
 */
 
+void func1(uint32_t *prevTime, uint32_t *data){
+    uint32_t curTime = TIM_readCounter(TIM0);
+    if (curTime - *prevTime < 200) return;
+    *prevTime = curTime;
+    
+    *data ^= 1<<1;
+    LED_write(GPIOD, *data);
+}
+
+void func2(uint32_t *prevTime, uint32_t *data){
+    uint32_t curTime = TIM_readCounter(TIM0);
+    if (curTime - *prevTime < 500) return;
+    *prevTime = curTime;
+
+    *data ^= 1<<2;
+    LED_write(GPIOD, *data);
+}
+
+void func3(uint32_t *prevTime, uint32_t *data){
+    uint32_t curTime = TIM_readCounter(TIM0);
+    if (curTime - *prevTime < 1000) return;
+    *prevTime = curTime;
+    
+    *data ^= 1<<3;
+    LED_write(GPIOD, *data);
+}
+
+void func4(uint32_t *prevTime, uint32_t *data){
+    uint32_t curTime = TIM_readCounter(TIM0);
+    if (curTime - *prevTime < 1500) return;
+    *prevTime = curTime;
+    
+    *data ^= 1<<4;
+    LED_write(GPIOD, *data);
+}
+
+void power(uint32_t *prevTime, uint32_t *data){
+    uint32_t curTime = TIM_readCounter(TIM0);
+    if (curTime - *prevTime < 500) return;
+    *prevTime = curTime;
+    
+    *data ^= 1<<0;
+    LED_write(GPIOD, *data);
+}
+
+
 void Button_init(GPIO_TypeDef *GPIOx)
 {
     GPIOx->MODER = 0x00;  // *(GPOx) = 0xff
@@ -278,3 +285,4 @@ uint32_t Button_getState(GPIO_TypeDef *GPIOx)
 {
     return GPIOx->IDR;
 }
+
