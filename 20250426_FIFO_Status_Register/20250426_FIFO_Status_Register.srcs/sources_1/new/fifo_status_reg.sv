@@ -160,8 +160,8 @@ module APB_SlaveIntf (
 
   always_comb begin
     case (state)
-      IDLE: begin
-
+      IDLE: begin 
+        
       end
       READ: begin
 
