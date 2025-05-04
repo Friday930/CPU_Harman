@@ -1,15 +1,19 @@
 `timescale 1ns / 1ps
 
 module MCU (
-    input logic clk,
-    input logic reset,
+    input  logic       clk,
+    input  logic       reset,
     // output logic [7:0] GPOA,
     // input  logic [7:0] GPIB,
     // inout  logic [7:0] GPIOC,
-    inout logic [7:0] GPIOA,
+    inout  logic [7:0] GPIOA,
+    // inout  logic [7:0] GPIOB,
     // output logic [7:0] fndFont,
     // output logic [3:0] fndCom,
-    input logic tilt_sensor
+    input  logic       tilt_sensor
+    // output logic       red,
+    // output logic       green,
+    // output logic       blue
 );
     // global signals
     logic        PCLK;
@@ -19,20 +23,26 @@ module MCU (
     logic [31:0] PWDATA;
     logic        PWRITE;
     logic        PENABLE;
-    logic        PSEL_RAM;
+    logic        PSEL_RAM; 
     logic        PSEL_TILT;
     logic        PSEL_GPIOA;
+    // logic        PSEL_GPIOB;
+    logic        PSEL_RGB;
     logic [31:0] PRDATA_RAM;
     logic [31:0] PRDATA_TILT;
     logic [31:0] PRDATA_GPIOA;
-    logic        PREADY_RAM;
+    // logic [31:0] PRDATA_GPIOB;
+    logic [31:0] PRDATA_RGB;
+    logic        PREADY_RAM; 
     logic        PREADY_TILT;
     logic        PREADY_GPIOA;
+    // logic        PREADY_GPIOB;
+    logic        PREADY_RGB;
 
     // CPU - APB_Master Signals
     // Internal Interface Signals
     logic        transfer;  // trigger signal
-    logic        ready;
+    logic        ready;  
     logic [31:0] addr;
     logic [31:0] wdata;
     logic [31:0] rdata;
@@ -62,22 +72,22 @@ module MCU (
 
     APB_Master U_APB_Master (
         .*,
-        .PSEL0  (PSEL_RAM),
-        .PSEL1  (PSEL_TILT),
+        .PSEL0  (PSEL_RAM), 
+        .PSEL1  (),
         .PSEL2  (PSEL_GPIOA),
-        .PSEL3  (),
+        .PSEL3  (PSEL_TILT),
         .PSEL4  (),
         .PSEL5  (),
         .PRDATA0(PRDATA_RAM),
-        .PRDATA1(PRDATA_TILT),
+        .PRDATA1(),
         .PRDATA2(PRDATA_GPIOA),
-        .PRDATA3(),
+        .PRDATA3(PRDATA_TILT),
         .PRDATA4(),
         .PRDATA5(),
         .PREADY0(PREADY_RAM),
-        .PREADY1(PREADY_TILT),
+        .PREADY1(),
         .PREADY2(PREADY_GPIOA),
-        .PREADY3(),
+        .PREADY3(PREADY_TILT),
         .PREADY4(),
         .PREADY5()
     );
@@ -96,13 +106,28 @@ module MCU (
         .PREADY(PREADY_TILT)
     );
 
-    GPIO_Periph u_GPIO_Periph (
+    GPIO_Periph U_GPIOA (
         .*,
         .PSEL     (PSEL_GPIOA),
         .PRDATA   (PRDATA_GPIOA),
         .PREADY   (PREADY_GPIOA),
         .inOutPort(GPIOA)
     );
+
+    // GPIO_Periph U_GPIOB (
+    //     .*,
+    //     .PSEL     (PSEL_GPIOB),
+    //     .PRDATA   (PRDATA_GPIOB),
+    //     .PREADY   (PREADY_GPIOB),
+    //     .inOutPort(GPIOB)
+    // );
+
+    // rgb_led U_RGB (
+    //     .*,
+    //     .PSEL  (PSEL_RGB),
+    //     .PRDATA(PRDATA_RGB),
+    //     .PREADY(PREADY_RGB)
+    // );
 
 
 endmodule

@@ -1,8 +1,8 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Sat May  3 16:43:21 2025
-| Host         : DESKTOP-2CUDO2B running 64-bit major release  (build 9200)
+| Date         : Sun May  4 19:06:36 2025
+| Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file MCU_control_sets_placed.rpt
 | Design       : MCU
 | Device       : xc7a35t
@@ -27,7 +27,7 @@ Table of Contents
 |    Minimum number of control sets                        |     9 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    15 |
+| Unused register locations in slices containing registers |    10 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -59,10 +59,10 @@ Table of Contents
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | No           | No                    | No                     |               4 |            2 |
-| No           | No                    | Yes                    |             250 |           84 |
+| No           | No                    | Yes                    |             247 |           81 |
 | No           | Yes                   | No                     |               0 |            0 |
-| Yes          | No                    | No                     |              32 |           12 |
-| Yes          | No                    | Yes                    |             163 |           47 |
+| Yes          | No                    | No                     |              32 |           14 |
+| Yes          | No                    | Yes                    |             163 |           72 |
 | Yes          | Yes                   | No                     |               0 |            0 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
@@ -74,14 +74,14 @@ Table of Contents
 |  Clock Signal  |                     Enable Signal                    | Set/Reset Signal | Slice Load Count | Bel Load Count | Bels / Slice |
 +----------------+------------------------------------------------------+------------------+------------------+----------------+--------------+
 |  clk_IBUF_BUFG |                                                      |                  |                2 |              4 |         2.00 |
-|  clk_IBUF_BUFG | U_Core/U_ControlUnit/FSM_sequential_state[3]_i_1_n_0 | reset_IBUF       |                1 |              4 |         4.00 |
-|  clk_IBUF_BUFG | U_APB_Master/slv_reg0                                | reset_IBUF       |               10 |             32 |         3.20 |
-|  clk_IBUF_BUFG | U_APB_Master/E[0]                                    |                  |               12 |             32 |         2.67 |
-|  clk_IBUF_BUFG | U_APB_Master/temp_write_reg_reg_0[0]                 | reset_IBUF       |                5 |             32 |         6.40 |
-|  clk_IBUF_BUFG | U_Core/U_ControlUnit/E[0]                            | reset_IBUF       |               10 |             32 |         3.20 |
-|  clk_IBUF_BUFG | U_Core/U_ControlUnit/temp_addr_next                  | reset_IBUF       |               21 |             63 |         3.00 |
+|  clk_IBUF_BUFG | U_Core/U_ControlUnit/FSM_sequential_state[3]_i_1_n_0 | reset_IBUF       |                4 |              4 |         1.00 |
+|  clk_IBUF_BUFG | U_APB_Master/E[0]                                    |                  |               14 |             32 |         2.29 |
+|  clk_IBUF_BUFG | U_APB_Master/slv_reg0                                | reset_IBUF       |               11 |             32 |         2.91 |
+|  clk_IBUF_BUFG | U_APB_Master/temp_write_reg_reg_0[0]                 | reset_IBUF       |               10 |             32 |         3.20 |
+|  clk_IBUF_BUFG | U_Core/U_ControlUnit/E[0]                            | reset_IBUF       |               14 |             32 |         2.29 |
+|  clk_IBUF_BUFG | U_Core/U_ControlUnit/temp_addr_next                  | reset_IBUF       |               33 |             63 |         1.91 |
 |  clk_IBUF_BUFG | U_Core/U_ControlUnit/regFileWe                       |                  |               12 |             96 |         8.00 |
-|  clk_IBUF_BUFG |                                                      | reset_IBUF       |               84 |            250 |         2.98 |
+|  clk_IBUF_BUFG |                                                      | reset_IBUF       |               81 |            247 |         3.05 |
 +----------------+------------------------------------------------------+------------------+------------------+----------------+--------------+
 
 
