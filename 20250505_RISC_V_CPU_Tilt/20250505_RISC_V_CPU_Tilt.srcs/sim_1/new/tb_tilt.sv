@@ -470,13 +470,14 @@ module tb_tilt ();
     
     // 테스트 환경 생성 및 실행
     tilt_env = new(tilt_intf);
-    tilt_env.run(20);
+    tilt_env.run(200);
     
     // 추가 테스트 주기
     #100;
     
     // 시뮬레이션 종료
     $display("Simulation completed");
+
     $finish;
   end
 endmodule

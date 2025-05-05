@@ -20,7 +20,7 @@ module tilt (
     APB_tilt U_APB_Tilt (.*);
 
     tilt_sensor_controller #(
-        .DEBOUNCE_COUNT(1_000_000)
+        .DEBOUNCE_COUNT(5)
     ) U_Tilt_CTRL (
         .clk          (PCLK),
         .reset        (PRESET),

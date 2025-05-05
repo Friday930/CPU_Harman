@@ -3,17 +3,8 @@
 module MCU (
     input  logic       clk,
     input  logic       reset,
-    // output logic [7:0] GPOA,
-    // input  logic [7:0] GPIB,
-    // inout  logic [7:0] GPIOC,
     inout  logic [7:0] GPIOA,
-    // inout  logic [7:0] GPIOB,
-    // output logic [7:0] fndFont,
-    // output logic [3:0] fndCom,
     input  logic       tilt_sensor
-    // output logic       red,
-    // output logic       green,
-    // output logic       blue
 );
     // global signals
     logic        PCLK;
@@ -26,18 +17,12 @@ module MCU (
     logic        PSEL_RAM; 
     logic        PSEL_TILT;
     logic        PSEL_GPIOA;
-    // logic        PSEL_GPIOB;
-    logic        PSEL_RGB;
     logic [31:0] PRDATA_RAM;
     logic [31:0] PRDATA_TILT;
     logic [31:0] PRDATA_GPIOA;
-    // logic [31:0] PRDATA_GPIOB;
-    logic [31:0] PRDATA_RGB;
     logic        PREADY_RAM; 
     logic        PREADY_TILT;
     logic        PREADY_GPIOA;
-    // logic        PREADY_GPIOB;
-    logic        PREADY_RGB;
 
     // CPU - APB_Master Signals
     // Internal Interface Signals
@@ -113,22 +98,6 @@ module MCU (
         .PREADY   (PREADY_GPIOA),
         .inOutPort(GPIOA)
     );
-
-    // GPIO_Periph U_GPIOB (
-    //     .*,
-    //     .PSEL     (PSEL_GPIOB),
-    //     .PRDATA   (PRDATA_GPIOB),
-    //     .PREADY   (PREADY_GPIOB),
-    //     .inOutPort(GPIOB)
-    // );
-
-    // rgb_led U_RGB (
-    //     .*,
-    //     .PSEL  (PSEL_RGB),
-    //     .PRDATA(PRDATA_RGB),
-    //     .PREADY(PREADY_RGB)
-    // );
-
 
 endmodule
 
