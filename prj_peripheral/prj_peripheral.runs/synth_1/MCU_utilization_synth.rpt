@@ -1,8 +1,13 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
+<<<<<<< HEAD
 | Date         : Sat May  3 20:05:57 2025
 | Host         : DESKTOP-2CUDO2B running 64-bit major release  (build 9200)
+=======
+| Date         : Sun May  4 19:06:08 2025
+| Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
+>>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
 | Command      : report_utilization -file MCU_utilization_synth.rpt -pb MCU_utilization_synth.pb
 | Design       : MCU
 | Device       : 7a35tcpg236-1
@@ -30,16 +35,21 @@ Table of Contents
 +----------------------------+------+-------+-----------+-------+
 |          Site Type         | Used | Fixed | Available | Util% |
 +----------------------------+------+-------+-----------+-------+
+<<<<<<< HEAD
 | Slice LUTs*                | 1073 |     0 |     20800 |  5.16 |
 |   LUT as Logic             | 1025 |     0 |     20800 |  4.93 |
+=======
+| Slice LUTs*                | 1085 |     0 |     20800 |  5.22 |
+|   LUT as Logic             | 1037 |     0 |     20800 |  4.99 |
+>>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
 |   LUT as Memory            |   48 |     0 |      9600 |  0.50 |
 |     LUT as Distributed RAM |   48 |     0 |           |       |
 |     LUT as Shift Register  |    0 |     0 |           |       |
-| Slice Registers            |  449 |     0 |     41600 |  1.08 |
-|   Register as Flip Flop    |  449 |     0 |     41600 |  1.08 |
+| Slice Registers            |  446 |     0 |     41600 |  1.07 |
+|   Register as Flip Flop    |  446 |     0 |     41600 |  1.07 |
 |   Register as Latch        |    0 |     0 |     41600 |  0.00 |
-| F7 Muxes                   |    1 |     0 |     16300 | <0.01 |
-| F8 Muxes                   |    0 |     0 |      8150 |  0.00 |
+| F7 Muxes                   |   40 |     0 |     16300 |  0.25 |
+| F8 Muxes                   |   19 |     0 |      8150 |  0.23 |
 +----------------------------+------+-------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
 
@@ -57,7 +67,7 @@ Table of Contents
 | 0     |            _ |       Reset |            - |
 | 0     |          Yes |           - |            - |
 | 9     |          Yes |           - |          Set |
-| 404   |          Yes |           - |        Reset |
+| 401   |          Yes |           - |        Reset |
 | 0     |          Yes |         Set |            - |
 | 36    |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
@@ -152,6 +162,7 @@ Table of Contents
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
+<<<<<<< HEAD
 | LUT6     |  544 |                 LUT |
 | FDCE     |  404 |        Flop & Latch |
 | LUT5     |  256 |                 LUT |
@@ -159,15 +170,25 @@ Table of Contents
 | LUT2     |   88 |                 LUT |
 | RAMD32   |   72 |  Distributed Memory |
 | LUT3     |   67 |                 LUT |
+=======
+| LUT6     |  574 |                 LUT |
+| FDCE     |  401 |        Flop & Latch |
+| LUT5     |  239 |                 LUT |
+| LUT4     |  174 |                 LUT |
+| LUT2     |   86 |                 LUT |
+| RAMD32   |   72 |  Distributed Memory |
+| LUT3     |   62 |                 LUT |
+>>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
 | CARRY4   |   55 |          CarryLogic |
+| MUXF7    |   40 |               MuxFx |
 | FDRE     |   36 |        Flop & Latch |
 | LUT1     |   25 |                 LUT |
 | RAMS32   |   24 |  Distributed Memory |
+| MUXF8    |   19 |               MuxFx |
 | IBUF     |   11 |                  IO |
 | FDPE     |    9 |        Flop & Latch |
 | OBUFT    |    8 |                  IO |
 | RAMB36E1 |    1 |        Block Memory |
-| MUXF7    |    1 |               MuxFx |
 | BUFG     |    1 |               Clock |
 +----------+------+---------------------+
 
