@@ -8,7 +8,7 @@ module tilt (
     input  logic [ 3:0] PADDR,
     input  logic [31:0] PWDATA,
     input  logic        PWRITE,
-    input  logic        PENABLE,
+    input  logic        PENABLE, 
     input  logic        PSEL,
     output logic [31:0] PRDATA,
     output logic        PREADY,
@@ -20,7 +20,7 @@ module tilt (
     APB_tilt U_APB_Tilt (.*);
 
     tilt_sensor_controller #(
-        .DEBOUNCE_COUNT(5)
+        .DEBOUNCE_COUNT(1_000_000)
     ) U_Tilt_CTRL (
         .clk          (PCLK),
         .reset        (PRESET),
@@ -40,7 +40,7 @@ module APB_tilt (
     input  logic        PENABLE,
     input  logic        PSEL,
     output logic [31:0] PRDATA,
-    output logic        PREADY,
+    output logic        PREADY,  
     // internal signals
     input  logic        tdr
 );
