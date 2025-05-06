@@ -250,6 +250,7 @@
 //   end
 // endmodule
 `timescale 1ns / 1ps
+
 class transaction;
   rand logic [ 3:0] PADDR;
   rand logic [31:0] PWDATA;

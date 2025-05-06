@@ -17,7 +17,7 @@ proc create_report { reportName command } {
   }
 }
 namespace eval ::optrace {
-  variable script "C:/CPU_Harman/prj_peripheral/prj_peripheral.runs/impl_1/MCU.tcl"
+  variable script "C:/CPU_Harman/20250505_RISC_V_CPU_Tilt/20250505_RISC_V_CPU_Tilt.runs/impl_1/MCU.tcl"
   variable category "vivado_impl"
 }
 
@@ -115,22 +115,18 @@ proc step_failed { step } {
 OPTRACE "impl_1" END { }
 }
 
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 
 OPTRACE "impl_1" START { ROLLUP_1 }
-<<<<<<< HEAD
-=======
 OPTRACE "Phase: Init Design" START { ROLLUP_AUTO }
 start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
   set_param chipscope.maxJobs 4
-<<<<<<< HEAD
-  set_param synth.incrementalSynthesisCache C:/Users/user/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-3760-DESKTOP-2CUDO2B/incrSyn
-=======
-  set_param synth.incrementalSynthesisCache C:/Users/kccistc/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-19436-DESKTOP-7CFQ9ND/incrSyn
+  set_param synth.incrementalSynthesisCache C:/Users/kccistc/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-19072-DESKTOP-7CFQ9ND/incrSyn
   set_param xicom.use_bs_reader 1
->>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
 OPTRACE "create in-memory project" START { }
   create_project -in_memory -part xc7a35tcpg236-1
   set_property board_part_repo_paths {C:/Users/kccistc/AppData/Roaming/Xilinx/Vivado/2020.2/xhub/board_store/xilinx_board_store} [current_project]
@@ -139,19 +135,15 @@ OPTRACE "create in-memory project" START { }
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir C:/CPU_Harman/prj_peripheral/prj_peripheral.cache/wt [current_project]
-  set_property parent.project_path C:/CPU_Harman/prj_peripheral/prj_peripheral.xpr [current_project]
-  set_property ip_output_repo C:/CPU_Harman/prj_peripheral/prj_peripheral.cache/ip [current_project]
+  set_property webtalk.parent_dir C:/CPU_Harman/20250505_RISC_V_CPU_Tilt/20250505_RISC_V_CPU_Tilt.cache/wt [current_project]
+  set_property parent.project_path C:/CPU_Harman/20250505_RISC_V_CPU_Tilt/20250505_RISC_V_CPU_Tilt.xpr [current_project]
+  set_property ip_output_repo C:/CPU_Harman/20250505_RISC_V_CPU_Tilt/20250505_RISC_V_CPU_Tilt.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet C:/CPU_Harman/prj_peripheral/prj_peripheral.runs/synth_1/MCU.dcp
+  add_files -quiet C:/CPU_Harman/20250505_RISC_V_CPU_Tilt/20250505_RISC_V_CPU_Tilt.runs/synth_1/MCU.dcp
 OPTRACE "read constraints: implementation" START { }
-<<<<<<< HEAD
-  read_xdc D:/CPU_Harman/prj_peripheral/prj_peripheral.srcs/constrs_1/imports/Source/Basys-3-Master.xdc
-=======
-  read_xdc C:/CPU_Harman/prj_peripheral/prj_peripheral.srcs/constrs_1/imports/CPU_Harman/Basys-3-Master.xdc
->>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
+  read_xdc C:/CPU_Harman/20250505_RISC_V_CPU_Tilt/20250505_RISC_V_CPU_Tilt.srcs/constrs_1/imports/CPU_Harman/Basys-3-Master.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }
@@ -308,17 +300,12 @@ if {$rc} {
 
 OPTRACE "route_design misc" END { }
 OPTRACE "Phase: Route Design" END { }
->>>>>>> 6d1208a0728c47642f542008402c216948005804
 OPTRACE "Phase: Write Bitstream" START { ROLLUP_AUTO }
 OPTRACE "write_bitstream setup" START { }
 start_step write_bitstream
 set ACTIVE_STEP write_bitstream
 set rc [catch {
   create_msg_db write_bitstream.pb
-  set_param chipscope.maxJobs 4
-  open_checkpoint MCU_routed.dcp
-  set_property webtalk.parent_dir C:/CPU_Harman/prj_peripheral/prj_peripheral.cache/wt [current_project]
-set_property TOP MCU [current_fileset]
 OPTRACE "read constraints: write_bitstream" START { }
 OPTRACE "read constraints: write_bitstream" END { }
   catch { write_mem_info -force -no_partial_mmi MCU.mmi }
