@@ -71,8 +71,12 @@ proc create_report { reportName command } {
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param chipscope.maxJobs 4
+<<<<<<< HEAD
+set_param synth.incrementalSynthesisCache C:/Users/user/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-3760-DESKTOP-2CUDO2B/incrSyn
+=======
 set_param synth.incrementalSynthesisCache C:/Users/kccistc/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-19436-DESKTOP-7CFQ9ND/incrSyn
 set_param xicom.use_bs_reader 1
+>>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
 set_msg_config -id {Synth 8-256} -limit 10000
 set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
@@ -113,8 +117,13 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
+<<<<<<< HEAD
+read_xdc D:/CPU_Harman/prj_peripheral/prj_peripheral.srcs/constrs_1/imports/Source/Basys-3-Master.xdc
+set_property used_in_implementation false [get_files D:/CPU_Harman/prj_peripheral/prj_peripheral.srcs/constrs_1/imports/Source/Basys-3-Master.xdc]
+=======
 read_xdc C:/CPU_Harman/prj_peripheral/prj_peripheral.srcs/constrs_1/imports/CPU_Harman/Basys-3-Master.xdc
 set_property used_in_implementation false [get_files C:/CPU_Harman/prj_peripheral/prj_peripheral.srcs/constrs_1/imports/CPU_Harman/Basys-3-Master.xdc]
+>>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]

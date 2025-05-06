@@ -1,8 +1,13 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
+<<<<<<< HEAD
+| Date             : Sat May  3 20:06:45 2025
+| Host             : DESKTOP-2CUDO2B running 64-bit major release  (build 9200)
+=======
 | Date             : Sun May  4 19:06:55 2025
 | Host             : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
+>>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
 | Command          : report_power -file MCU_power_routed.rpt -pb MCU_power_summary_routed.pb -rpx MCU_power_routed.rpx
 | Design           : MCU
 | Device           : xc7a35tcpg236-1
@@ -33,7 +38,11 @@ Table of Contents
 | Total On-Chip Power (W)  | 0.097        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
+<<<<<<< HEAD
+| Dynamic (W)              | 0.025        |
+=======
 | Dynamic (W)              | 0.026        |
+>>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
 | Device Static (W)        | 0.072        |
 | Effective TJA (C/W)      | 5.0          |
 | Max Ambient (C)          | 84.5         |
@@ -53,6 +62,18 @@ Table of Contents
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
 | Clocks                   |     0.003 |        3 |       --- |             --- |
+<<<<<<< HEAD
+| Slice Logic              |     0.007 |     1756 |       --- |             --- |
+|   LUT as Logic           |     0.006 |     1010 |     20800 |            4.86 |
+|   LUT as Distributed RAM |    <0.001 |       48 |      9600 |            0.50 |
+|   CARRY4                 |    <0.001 |       55 |      8150 |            0.67 |
+|   Register               |    <0.001 |      449 |     41600 |            1.08 |
+|   F7/F8 Muxes            |    <0.001 |        1 |     32600 |           <0.01 |
+|   Others                 |     0.000 |       24 |       --- |             --- |
+| Signals                  |     0.009 |     1479 |       --- |             --- |
+| Block RAM                |    <0.001 |        1 |        50 |            2.00 |
+| I/O                      |     0.006 |       11 |       106 |           10.38 |
+=======
 | Slice Logic              |     0.007 |     1824 |       --- |             --- |
 |   LUT as Logic           |     0.006 |     1027 |     20800 |            4.94 |
 |   LUT as Distributed RAM |    <0.001 |       48 |      9600 |            0.50 |
@@ -63,6 +84,7 @@ Table of Contents
 | Signals                  |     0.009 |     1435 |       --- |             --- |
 | Block RAM                |    <0.001 |        1 |        50 |            2.00 |
 | I/O                      |     0.007 |       11 |       106 |           10.38 |
+>>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
 | Static Power             |     0.072 |          |           |                 |
 | Total                    |     0.097 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
@@ -140,6 +162,20 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
+<<<<<<< HEAD
++-----------------------+-----------+
+| Name                  | Power (W) |
++-----------------------+-----------+
+| MCU                   |     0.025 |
+|   GPIOA_IOBUF[1]_inst |     0.001 |
+|   U_Core              |     0.017 |
+|     U_ControlUnit     |     0.005 |
+|     U_DataPath        |     0.012 |
+|       U_DecReg_RFRD1  |     0.005 |
+|       U_PC            |     0.002 |
+|       U_RegFile       |     0.001 |
++-----------------------+-----------+
+=======
 +--------------------------+-----------+
 | Name                     | Power (W) |
 +--------------------------+-----------+
@@ -156,5 +192,6 @@ Table of Contents
 |       U_PC               |     0.002 |
 |       U_RegFile          |     0.001 |
 +--------------------------+-----------+
+>>>>>>> 61af64c8d5f01e975e95d30138efdb5ba655a5f3
 
 
