@@ -4,7 +4,7 @@ module MCU (
     input  logic       clk,
     input  logic       reset,
     inout  logic [7:0] GPIOA,
-    input  logic       tilt_sensor
+    input  logic       tilt_sensor 
 );
     // global signals
     logic        PCLK;
