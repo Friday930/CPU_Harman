@@ -13,11 +13,11 @@ typedef struct {
 } GPIO_TypeDef;
 
 #define APB_BASEADDR     0x10000000
-#define TILT_BASEADDR    (APB_BASEADDR + 0x3000)  // 0x10003000
 #define GPIOA_BASEADDR   (APB_BASEADDR + 0x2000)  // 0x10002000
+#define TILT_BASEADDR    (APB_BASEADDR + 0x3000)  // 0x10003000
 
-#define TILT             ((TILT_TypeDef *) TILT_BASEADDR)
 #define GPIOA            ((GPIO_TypeDef *) GPIOA_BASEADDR)
+#define TILT             ((TILT_TypeDef *) TILT_BASEADDR)
 
 #define LED_COUNT        6  // LED 개수
 
@@ -46,10 +46,8 @@ int main() {
         volatile uint32_t tilt_state = TILT->TILT_REG & 0x01;
         
         if(tilt_state) {
-            // 센서가 기울어진 상태: 모든 LED 켜기
             LEDs_on();
         } else {
-            // 센서가 기울어지지 않은 상태: 모든 LED 끄기
             LEDs_off();
         }
         
@@ -85,14 +83,12 @@ void GPIO_init(void) {
 
 void LEDs_on(void) {
     uint32_t odr_value = GPIOA->ODR;
-    // 하위 6비트만 수정 (LED_COUNT = 6)
-    odr_value = (odr_value & ~0x3F) | 0x3E;  // 0x3F = 0b111111, 0x3E = 0b111110
+    odr_value = (odr_value & ~0x3F) | 0x3E;
     GPIOA->ODR = odr_value;
 }
 
 void LEDs_off(void) {
-    // 모든 LED 끄기 (하위 8비트를 0으로 설정)
     uint32_t odr_value = GPIOA->ODR;
-    odr_value &= ~0xFF;  // 하위 8비트를 0으로 설정
+    odr_value &= ~0xFF;  
     GPIOA->ODR = odr_value;
 }

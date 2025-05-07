@@ -135,7 +135,6 @@ module tilt_sensor_controller (
         if (reset) begin
             tilt_detected <= 1'b0;
         end else begin
-            // 센서 상태 자체를 출력 (변화 감지 대신 상태 자체 사용)
             tilt_detected <= tilt_sensor_debounced;
         end 
     end
