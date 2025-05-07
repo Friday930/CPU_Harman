@@ -878,6 +878,8 @@ interface APB_Slave_Interface;
   logic [31:0] PRDATA;
   logic PREADY;
   logic tilt_sensor;
+  // Add tilt_detected for monitoring
+  logic tilt_detected;
 endinterface
 
 class generator;
@@ -936,6 +938,9 @@ class driver;
       // Drive tilt sensor
       @(posedge tilt_intf.PCLK);
       tilt_intf.tilt_sensor <= tilt_tr.tilt_sensor;
+      
+      // Add delay for debounce to settle (DEBOUNCE_COUNT = 5)
+      repeat (10) @(posedge tilt_intf.PCLK);
       
       // SETUP phase
       tilt_intf.PADDR <= tilt_tr.PADDR;
@@ -1016,9 +1021,9 @@ class monitor;
       mon_tr.PRDATA = tilt_intf.PRDATA;
       
       // Display monitor info - explicitly show bit 0 for clarity
-      $display("[MON] PADDR=0x%h, PWDATA=0x%h, PWRITE=%b, PRDATA=0x%h, PRDATA[0]=%b, tilt_sensor=%b", 
+      $display("[MON] PADDR=0x%h, PWDATA=0x%h, PWRITE=%b, PRDATA=0x%h, PRDATA[0]=%b, tilt_sensor=%b, tilt_detected=%b", 
                mon_tr.PADDR, mon_tr.PWDATA, mon_tr.PWRITE, 
-               mon_tr.PRDATA, mon_tr.PRDATA[0], mon_tr.tilt_sensor);
+               mon_tr.PRDATA, mon_tr.PRDATA[0], mon_tr.tilt_sensor, tilt_intf.tilt_detected);
       
       // Send to scoreboard
       Mon2SCB_mbox.put(mon_tr);
@@ -1045,6 +1050,7 @@ class scoreboard;
   // Reference model
   logic [31:0] ref_tilt_reg[0:3];
   logic last_tilt_sensor; // Remember last tilt sensor value
+  logic expected_tilt_detected; // Expected debounced value
 
   function new(mailbox#(transaction) Mon2SCB_mbox, event gen_next_event);
     this.Mon2SCB_mbox = Mon2SCB_mbox;
@@ -1062,6 +1068,7 @@ class scoreboard;
     this.fail_cnt = 0;
     this.total_cnt = 0;
     this.last_tilt_sensor = 0;
+    this.expected_tilt_detected = 0;
   endfunction
 
   task run();
@@ -1071,13 +1078,17 @@ class scoreboard;
       // Get transaction from monitor
       Mon2SCB_mbox.get(tilt_tr);
       
-      // Update last tilt sensor value
-      last_tilt_sensor = tilt_tr.tilt_sensor;
+      // Update expected tilt detected value based on tilt_sensor
+      // After debounce delay, expected_tilt_detected should match tilt_sensor
+      expected_tilt_detected = tilt_tr.tilt_sensor;
+      
+      // Update reference model - bit 0 of register 0 should match the tilt_detected signal
+      ref_tilt_reg[0][0] = expected_tilt_detected;
       
       // Display scoreboard info with full details
-      $display("[SCB] PADDR=0x%h, PWDATA=0x%h, PWRITE=%b, PRDATA=0x%h, PRDATA[0]=%b, tilt_sensor=%b", 
+      $display("[SCB] PADDR=0x%h, PWDATA=0x%h, PWRITE=%b, PRDATA=0x%h, PRDATA[0]=%b, Expected=%b", 
                tilt_tr.PADDR, tilt_tr.PWDATA, tilt_tr.PWRITE, 
-               tilt_tr.PRDATA, tilt_tr.PRDATA[0], tilt_tr.tilt_sensor);
+               tilt_tr.PRDATA, tilt_tr.PRDATA[0], expected_tilt_detected);
       
       // Increment total transaction count
       total_cnt++;
@@ -1087,25 +1098,18 @@ class scoreboard;
         // Read operation
         read_cnt++;
         
-        // For register 0, tilt_sensor value should be in bit 0
-        if (tilt_tr.PADDR[3:2] == 2'd0) begin
-          ref_tilt_reg[0][0] = tilt_tr.tilt_sensor;
-        end
-        
         // Print detailed debug info
-        $display("[DEBUG] Reg0=0x%h, Reg1=0x%h, Reg2=0x%h, Reg3=0x%h", 
-                 ref_tilt_reg[0], ref_tilt_reg[1], ref_tilt_reg[2], ref_tilt_reg[3]);
-        $display("[DEBUG] Expected bit0=%b, Actual bit0=%b", 
-                 ref_tilt_reg[tilt_tr.PADDR[3:2]][0], tilt_tr.PRDATA[0]);
+        $display("[DEBUG] Reg0=0x%h, Expected tilt_detected=%b", 
+                 ref_tilt_reg[0], expected_tilt_detected);
         
         // Compare only bit 0 for tilt sensor
-        if (tilt_tr.PRDATA[0] == ref_tilt_reg[tilt_tr.PADDR[3:2]][0]) begin
+        if (tilt_tr.PRDATA[0] == expected_tilt_detected) begin
           pass_cnt++;
           $display("[RESULT] PASS - Read operation verified");
         end else begin
           fail_cnt++;
           $display("[RESULT] FAIL - Register read error: Exp=%b, Act=%b", 
-                   ref_tilt_reg[tilt_tr.PADDR[3:2]][0], tilt_tr.PRDATA[0]);
+                   expected_tilt_detected, tilt_tr.PRDATA[0]);
         end
       end
       
@@ -1120,7 +1124,7 @@ class scoreboard;
     $display("================================");
     $display("==        Final Report        ==");
     $display("================================");
-    $display("Write Test : %0d", write_cnt);
+    // $display("Write Test : %0d", write_cnt);
     $display("Read  Test : %0d", read_cnt);
     $display("PASS  Test : %0d", pass_cnt);
     $display("FAIL  Test : %0d", fail_cnt);
@@ -1206,6 +1210,9 @@ module tb_tilt ();
     .PREADY     (tilt_intf.PREADY),
     .tilt_sensor(tilt_intf.tilt_sensor)
   );
+  
+  // Monitor tilt_detected signal
+  assign tilt_intf.tilt_detected = dut.tdr;
 
   initial begin
     tilt_intf.PCLK = 0;
