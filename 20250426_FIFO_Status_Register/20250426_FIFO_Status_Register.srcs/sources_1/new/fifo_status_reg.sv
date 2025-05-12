@@ -13,7 +13,7 @@ module fifo_status_reg (
     output logic [31:0] PRDATA,
     output logic        PREADY,
     // in or outport signals
-    input  logic        write,
+    input  logic        write, 
     output logic        read,
     output logic        ready
 );
