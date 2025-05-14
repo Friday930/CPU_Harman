@@ -1,7 +1,7 @@
 //Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-//Date        : Wed May 14 09:43:54 2025
+//Date        : Wed May 14 12:21:03 2025
 //Host        : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -11,11 +11,13 @@
 
 module design_1_wrapper
    (GPIOA_tri_io,
+    GPIOB,
     reset,
     sys_clock,
     usb_uart_rxd,
     usb_uart_txd);
   inout [15:0]GPIOA_tri_io;
+  inout [7:0]GPIOB;
   input reset;
   input sys_clock;
   input usb_uart_rxd;
@@ -85,6 +87,7 @@ module design_1_wrapper
   wire [7:7]GPIOA_tri_t_7;
   wire [8:8]GPIOA_tri_t_8;
   wire [9:9]GPIOA_tri_t_9;
+  wire [7:0]GPIOB;
   wire reset;
   wire sys_clock;
   wire usb_uart_rxd;
@@ -174,6 +177,7 @@ module design_1_wrapper
        (.GPIOA_tri_i({GPIOA_tri_i_15,GPIOA_tri_i_14,GPIOA_tri_i_13,GPIOA_tri_i_12,GPIOA_tri_i_11,GPIOA_tri_i_10,GPIOA_tri_i_9,GPIOA_tri_i_8,GPIOA_tri_i_7,GPIOA_tri_i_6,GPIOA_tri_i_5,GPIOA_tri_i_4,GPIOA_tri_i_3,GPIOA_tri_i_2,GPIOA_tri_i_1,GPIOA_tri_i_0}),
         .GPIOA_tri_o({GPIOA_tri_o_15,GPIOA_tri_o_14,GPIOA_tri_o_13,GPIOA_tri_o_12,GPIOA_tri_o_11,GPIOA_tri_o_10,GPIOA_tri_o_9,GPIOA_tri_o_8,GPIOA_tri_o_7,GPIOA_tri_o_6,GPIOA_tri_o_5,GPIOA_tri_o_4,GPIOA_tri_o_3,GPIOA_tri_o_2,GPIOA_tri_o_1,GPIOA_tri_o_0}),
         .GPIOA_tri_t({GPIOA_tri_t_15,GPIOA_tri_t_14,GPIOA_tri_t_13,GPIOA_tri_t_12,GPIOA_tri_t_11,GPIOA_tri_t_10,GPIOA_tri_t_9,GPIOA_tri_t_8,GPIOA_tri_t_7,GPIOA_tri_t_6,GPIOA_tri_t_5,GPIOA_tri_t_4,GPIOA_tri_t_3,GPIOA_tri_t_2,GPIOA_tri_t_1,GPIOA_tri_t_0}),
+        .GPIOB(GPIOB),
         .reset(reset),
         .sys_clock(sys_clock),
         .usb_uart_rxd(usb_uart_rxd),
