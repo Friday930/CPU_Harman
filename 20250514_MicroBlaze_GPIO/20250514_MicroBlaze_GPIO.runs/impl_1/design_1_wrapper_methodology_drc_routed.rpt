@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Wed May 14 09:48:23 2025
+| Date         : Wed May 14 12:30:05 2025
 | Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
 | Command      : report_methodology -file design_1_wrapper_methodology_drc_routed.rpt -pb design_1_wrapper_methodology_drc_routed.pb -rpx design_1_wrapper_methodology_drc_routed.rpx
 | Design       : design_1_wrapper
@@ -23,7 +23,7 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 27
+             Violations found: 35
 +-----------+------------------+------------------------------------------------------------------+------------+
 | Rule      | Severity         | Description                                                      | Violations |
 +-----------+------------------+------------------------------------------------------------------+------------+
@@ -31,7 +31,7 @@ Table of Contents
 | TIMING-54 | Critical Warning | Scoped false path or clock group constraint between clocks       | 2          |
 | LUTAR-1   | Warning          | LUT drives async reset alert                                     | 1          |
 | TIMING-9  | Warning          | Unknown CDC Logic                                                | 1          |
-| TIMING-18 | Warning          | Missing input or output delay                                    | 19         |
+| TIMING-18 | Warning          | Missing input or output delay                                    | 27         |
 | TIMING-56 | Warning          | Missing logically or physically excluded clock groups constraint | 2          |
 +-----------+------------------+------------------------------------------------------------------+------------+
 
@@ -149,15 +149,55 @@ Related violations: <none>
 
 TIMING-18#17 Warning
 Missing input or output delay  
-An input delay is missing on reset relative to clock(s) sys_clk_pin, sys_clock
+An input delay is missing on GPIOB[0] relative to clock(s) sys_clk_pin, sys_clock
 Related violations: <none>
 
 TIMING-18#18 Warning
 Missing input or output delay  
-An input delay is missing on usb_uart_rxd relative to clock(s) sys_clk_pin, sys_clock
+An input delay is missing on GPIOB[1] relative to clock(s) sys_clk_pin, sys_clock
 Related violations: <none>
 
 TIMING-18#19 Warning
+Missing input or output delay  
+An input delay is missing on GPIOB[2] relative to clock(s) sys_clk_pin, sys_clock
+Related violations: <none>
+
+TIMING-18#20 Warning
+Missing input or output delay  
+An input delay is missing on GPIOB[3] relative to clock(s) sys_clk_pin, sys_clock
+Related violations: <none>
+
+TIMING-18#21 Warning
+Missing input or output delay  
+An input delay is missing on GPIOB[4] relative to clock(s) sys_clk_pin, sys_clock
+Related violations: <none>
+
+TIMING-18#22 Warning
+Missing input or output delay  
+An input delay is missing on GPIOB[5] relative to clock(s) sys_clk_pin, sys_clock
+Related violations: <none>
+
+TIMING-18#23 Warning
+Missing input or output delay  
+An input delay is missing on GPIOB[6] relative to clock(s) sys_clk_pin, sys_clock
+Related violations: <none>
+
+TIMING-18#24 Warning
+Missing input or output delay  
+An input delay is missing on GPIOB[7] relative to clock(s) sys_clk_pin, sys_clock
+Related violations: <none>
+
+TIMING-18#25 Warning
+Missing input or output delay  
+An input delay is missing on reset relative to clock(s) sys_clk_pin, sys_clock
+Related violations: <none>
+
+TIMING-18#26 Warning
+Missing input or output delay  
+An input delay is missing on usb_uart_rxd relative to clock(s) sys_clk_pin, sys_clock
+Related violations: <none>
+
+TIMING-18#27 Warning
 Missing input or output delay  
 An output delay is missing on usb_uart_txd relative to clock(s) sys_clk_pin, sys_clock
 Related violations: <none>

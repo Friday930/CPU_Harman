@@ -11,9 +11,9 @@
 # 
 connect -url tcp:127.0.0.1:3121
 targets -set -filter {jtag_cable_name =~ "Digilent Basys3 210183BB7A24A" && level==0 && jtag_device_ctx=="jsn-Basys3-210183BB7A24A-0362d093-0"}
-fpga -file C:/CPU_Harman/20250514_MicroBlaze_GPIO/vitis/hello_world/_ide/bitstream/design_1_wrapper.bit
+fpga -file C:/CPU_Harman/20250514_MicroBlaze_GPIO/vitis/hello_world/_ide/bitstream/design_1_wrapper2.bit
 targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
-loadhw -hw C:/CPU_Harman/20250514_MicroBlaze_GPIO/vitis/design_1_wrapper/export/design_1_wrapper/hw/design_1_wrapper.xsa -regs
+loadhw -hw C:/CPU_Harman/20250514_MicroBlaze_GPIO/vitis/design_1_wrapper/export/design_1_wrapper/hw/design_1_wrapper2.xsa -regs
 configparams mdm-detect-bscan-mask 2
 targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
 rst -system

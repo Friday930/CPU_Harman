@@ -70,6 +70,8 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param chipscope.maxJobs 4
+set_msg_config -id {HDL-1065} -limit 10000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35tcpg236-1
 
@@ -84,6 +86,8 @@ set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
 set_property board_part_repo_paths {C:/Users/kccistc/AppData/Roaming/Xilinx/Vivado/2020.2/xhub/board_store/xilinx_board_store} [current_project]
 set_property board_part digilentinc.com:basys3:part0:1.1 [current_project]
+set_property ip_repo_paths c:/CPU_Harman/ip_repo/GPIO_1.0 [current_project]
+update_ip_catalog
 set_property ip_output_repo c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
@@ -92,11 +96,6 @@ read_verilog -library xil_defaultlib c:/CPU_Harman/20250514_MicroBlaze_GPIO/2025
 add_files C:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.srcs/sources_1/bd/design_1/design_1.bd
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_microblaze_0_0/design_1_microblaze_0_0.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_microblaze_0_0/design_1_microblaze_0_0_ooc_debug.xdc]
-set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_microblaze_0_0/design_1_microblaze_0_0_ooc.xdc]
-set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_dlmb_v10_0/design_1_dlmb_v10_0_ooc.xdc]
-set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_ilmb_v10_0/design_1_ilmb_v10_0_ooc.xdc]
-set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_dlmb_bram_if_cntlr_0/design_1_dlmb_bram_if_cntlr_0_ooc.xdc]
-set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_ilmb_bram_if_cntlr_0/design_1_ilmb_bram_if_cntlr_0_ooc.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_lmb_bram_0/design_1_lmb_bram_0_ooc.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_mdm_1_0/design_1_mdm_1_0.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_mdm_1_0/design_1_mdm_1_0_ooc_trace.xdc]
@@ -105,11 +104,9 @@ set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_clk_wiz_1_0/design_1_clk_wiz_1_0_ooc.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_rst_clk_wiz_1_100M_0/design_1_rst_clk_wiz_1_100M_0_board.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_rst_clk_wiz_1_100M_0/design_1_rst_clk_wiz_1_100M_0.xdc]
-set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_rst_clk_wiz_1_100M_0/design_1_rst_clk_wiz_1_100M_0_ooc.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_axi_uartlite_0_1/design_1_axi_uartlite_0_1_board.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_axi_uartlite_0_1/design_1_axi_uartlite_0_1_ooc.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_axi_uartlite_0_1/design_1_axi_uartlite_0_1.xdc]
-set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_xbar_0/design_1_xbar_0_ooc.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_axi_gpio_0_0/design_1_axi_gpio_0_0_board.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_axi_gpio_0_0/design_1_axi_gpio_0_0_ooc.xdc]
 set_property used_in_implementation false [get_files -all c:/CPU_Harman/20250514_MicroBlaze_GPIO/20250514_MicroBlaze_GPIO.gen/sources_1/bd/design_1/ip/design_1_axi_gpio_0_0/design_1_axi_gpio_0_0.xdc]

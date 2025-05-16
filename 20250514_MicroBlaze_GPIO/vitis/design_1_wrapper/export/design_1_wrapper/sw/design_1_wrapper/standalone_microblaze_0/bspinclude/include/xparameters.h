@@ -478,6 +478,17 @@
  
  
 /******************************************************************/
+/* Definitions for driver GPIO */
+#define XPAR_GPIO_NUM_INSTANCES 1
+
+/* Definitions for peripheral GPIO_0 */
+#define XPAR_GPIO_0_DEVICE_ID 0
+#define XPAR_GPIO_0_S00_AXI_BASEADDR 0x44A00000
+#define XPAR_GPIO_0_S00_AXI_HIGHADDR 0x44A0FFFF
+
+
+/******************************************************************/
+
 /* Definitions for driver BRAM */
 #define XPAR_XBRAM_NUM_INSTANCES 2U
 

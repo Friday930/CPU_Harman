@@ -18,3 +18,7 @@ platform generate -domains
 platform active {design_1_wrapper}
 platform generate -quick
 platform generate
+platform config -updatehw {C:/CPU_Harman/20250514_MicroBlaze_GPIO/vitis/design_1_wrapper2.xsa}
+platform config -updatehw {C:/CPU_Harman/20250514_MicroBlaze_GPIO/vitis/design_1_wrapper2.xsa}
+platform clean
+platform generate
