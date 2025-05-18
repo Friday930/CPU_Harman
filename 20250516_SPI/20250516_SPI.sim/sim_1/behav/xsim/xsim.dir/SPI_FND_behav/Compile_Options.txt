@@ -1,0 +1,1 @@
+-wto "30b1d1b434204fcd97d1f2fdd80886a2" --incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "unisims_ver" -L "unimacro_ver" -L "secureip" --snapshot "SPI_FND_behav" "xil_defaultlib.SPI_FND" "xil_defaultlib.glbl" -log "elaborate.log" 

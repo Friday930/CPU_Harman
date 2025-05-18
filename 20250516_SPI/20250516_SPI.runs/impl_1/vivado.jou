@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Fri May 16 18:44:22 2025
+# Process ID: 16272
+# Current directory: C:/CPU_Harman/20250516_SPI/20250516_SPI.runs/impl_1
+# Command line: vivado.exe -log SPI_FND.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source SPI_FND.tcl -notrace
+# Log file: C:/CPU_Harman/20250516_SPI/20250516_SPI.runs/impl_1/SPI_FND.vdi
+# Journal file: C:/CPU_Harman/20250516_SPI/20250516_SPI.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source SPI_FND.tcl -notrace
