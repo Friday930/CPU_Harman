@@ -83,7 +83,6 @@ module SPI_Master (
                     if (bit_counter_reg == 7) begin
                         done = 1'b1;
                         next = IDLE;
-                        CS = 1'b1;
                     end else begin
                         temp_tx_data_next = {temp_tx_data_reg[6:0], 1'b0};
                         // SCLK_counter_next = 0;

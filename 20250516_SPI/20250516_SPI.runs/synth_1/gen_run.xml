@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1747575394">
   <File Type="PA-TCL" Name="SPI_FND.tcl"/>
-  <File Type="RDS-PROPCONSTRS" Name="SPI_FND_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="SPI_FND_reports.tcl"/>
   <File Type="RDS-RDS" Name="SPI_FND.vds"/>
   <File Type="RDS-UTIL" Name="SPI_FND_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="SPI_FND_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="SPI_FND.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="SPI_FND_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="SPI_FND_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/SPI_Input_Master.v">
