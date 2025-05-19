@@ -106,69 +106,6 @@ module btn_debounce (
     assign o_btn = ff[1] & ~ff[2];
 endmodule
 
-// module FSM_input_master (
-//     input wire sys_clk,
-//     input wire rst,
-//     input wire done,
-//     input wire btn,
-//     input wire [15:0] number,
-//     output reg [7:0] data, 
-//     output wire start
-// );
-
-//     localparam IDLE = 0, L_BYTE = 1, H_BYTE = 2;
-
-//     reg [1:0] next, state;
-//     reg start_reg, start_next;
-
-//     assign start = start_reg;
-
-//     always @(posedge sys_clk, posedge rst) begin
-//         if (rst) begin
-//             state <= IDLE;
-//             start_reg <= 0;
-//         end else begin
-//             state <= next;
-//             start_reg <= start_next;
-//         end
-//     end
-
-//     always @(*) begin
-//         next = state;
-//         start_next = start_reg;
-//         data = 0;
-//         case (state)
-//             IDLE: begin
-//                 start_next = 0;
-//                 if (btn) begin
-//                     next = L_BYTE;
-//                     start_next = 1;
-//                     data = number[7:0];
-//                 end
-//             end
-//             L_BYTE: begin
-//                 data = number[7:0];
-//                 if (done) begin
-//                     // data = number[7:0];
-//                     start_next = 1'b0;
-//                     next = H_BYTE;
-//                 end
-//             end
-//             H_BYTE: begin
-//                 // start_next = 0;
-//                 data = number[15:8];
-//                 if (done) begin
-//                     // data = number[15:8];
-//                     start_next = 1'b0;
-//                     next = IDLE;
-//                 end else start_next = 1;
-//             end
-//         endcase
-//     end
-
-
-// endmodule
-
 module FSM_input_master (
     input wire sys_clk,
     input wire rst,
@@ -198,39 +135,38 @@ module FSM_input_master (
 
     always @(*) begin
         next = state;
-        start_next = 1'b0;  // 기본적으로 start 비활성화
-        data = 8'h00;       // 기본 데이터 값
-        
+        start_next = start_reg;
+        data = 0;
         case (state)
             IDLE: begin
-                data = 8'h00;
+                start_next = 0;
                 if (btn) begin
                     next = L_BYTE;
-                    start_next = 1'b1;  // 버튼 누를 때 start 활성화
+                    start_next = 1;
                     data = number[7:0];
                 end
             end
             L_BYTE: begin
                 data = number[7:0];
                 if (done) begin
+                    // data = number[7:0];
+                    start_next = 1'b0;
                     next = H_BYTE;
-                    start_next = 1'b0;  // done 신호 수신 시 start 비활성화
-                end else
-                    start_next = 1'b1;  // done 아닐 때 start 유지
+                end
             end
             H_BYTE: begin
+                // start_next = 0;
                 data = number[15:8];
                 if (done) begin
+                    // data = number[15:8];
+                    start_next = 1'b0;
                     next = IDLE;
-                    start_next = 1'b0;  // 통신 완료 시 start 비활성화
-                end else
-                    start_next = 1'b1;  // done 아닐 때 start 유지
-            end
-            default: begin
-                next = IDLE;
-                start_next = 1'b0;
-                data = 8'h00;
+                end else start_next = 1;
             end
         endcase
     end
+
+
 endmodule
+
+

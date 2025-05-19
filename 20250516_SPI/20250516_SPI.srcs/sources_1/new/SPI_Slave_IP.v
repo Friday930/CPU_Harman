@@ -44,40 +44,6 @@ module SPI_Slave_IP (
 
 endmodule
 
-// module SPI_Slave (
-//     input  wire       SCLK,
-//     input  wire       rst,
-//     input  wire       MOSI,
-//     input  wire       CS,
-//     output wire       MISO,
-//     output wire [7:0] data,
-//     output reg        done
-// );
-
-//     reg [          7:0] data_reg;
-//     reg [$clog2(8)-1:0] bit_count;
-//     assign data = data_reg;
-
-//     assign MISO = CS ? 1'dz : MOSI;
-
-//     always @(posedge SCLK, posedge rst) begin
-//         if (rst) begin
-//             data_reg <= 0;
-//             bit_count <= 0;
-//             done <= 0;
-//         end else begin
-//             if (!CS) begin
-//                 done <= 0;
-//                 data_reg <= {data_reg[6:0], MOSI};
-//                 if (bit_count == 7) begin
-//                     done <= 1;
-//                     bit_count <= 0;
-//                 end else bit_count <= bit_count + 1;
-//             end
-//         end
-//     end
-// endmodule
-
 module SPI_Slave (
     input  wire       SCLK,
     input  wire       rst,
@@ -88,85 +54,30 @@ module SPI_Slave (
     output reg        done
 );
 
-    reg [7:0] data_reg;
+    reg [          7:0] data_reg;
     reg [$clog2(8)-1:0] bit_count;
-    
     assign data = data_reg;
-    assign MISO = CS ? 1'bz : MOSI;  // 1'bz로 수정
+
+    assign MISO = CS ? 1'dz : MOSI;
 
     always @(posedge SCLK, posedge rst) begin
         if (rst) begin
             data_reg <= 0;
             bit_count <= 0;
             done <= 0;
-        end else if (!CS) begin  // CS가 활성(LOW)일 때만 동작
-            done <= 0;
-            data_reg <= {data_reg[6:0], MOSI};
-            if (bit_count == 7) begin
-                done <= 1;
-                bit_count <= 0;
-            end else 
-                bit_count <= bit_count + 1;
+        end else begin
+            if (!CS) begin
+                done <= 0;
+                data_reg <= {data_reg[6:0], MOSI};
+                if (bit_count == 7) begin
+                    done <= 1;
+                    bit_count <= 0;
+                end else bit_count <= bit_count + 1;
+            end
         end
-    end
-    
-    // CS가 비활성화될 때 done 신호 리셋
-    always @(posedge CS) begin
-        done <= 0;
     end
 endmodule
 
-// module FSM (
-//     input  wire        sys_clk,
-//     input  wire        rst,
-//     input  wire [ 7:0] data,
-//     input  wire        done,
-//     input  wire        CS,
-//     output wire [15:0] fnd_data
-// );
-
-//     localparam IDLE = 0, L_BYTE = 1, H_BYTE = 2;
-
-//     reg [1:0] next, state;
-//     reg [15:0] fnd_data_reg, fnd_data_next;
-
-//     assign fnd_data = fnd_data_reg;
-
-//     always @(posedge sys_clk, posedge rst) begin
-//         if (rst) begin
-//             state <= IDLE;
-//             fnd_data_reg <= 0;
-//         end else begin
-//             state <= next;
-//             fnd_data_reg <= fnd_data_next;
-//         end
-//     end
-
-//     always @(*) begin
-//         next = state;
-//         fnd_data_next = fnd_data_reg;
-//         case (state)
-//             IDLE: begin
-//                 if (!CS) begin
-//                     next = L_BYTE;
-//                 end
-//             end
-//             L_BYTE: begin
-//                 if (!CS && done) begin
-//                     fnd_data_next[7:0] = data;
-//                     next = H_BYTE;
-//                 end
-//             end
-//             H_BYTE: begin
-//                 if (!CS && done) begin
-//                     fnd_data_next[15:8] = data;
-//                     next = IDLE;
-//                 end
-//             end
-//         endcase
-//     end
-
-// endmodule
 
 module FSM (
     input  wire        sys_clk,
@@ -184,11 +95,6 @@ module FSM (
 
     assign fnd_data = fnd_data_reg;
 
-    // 디버깅용 신호 추가
-    wire debug_cs = CS;
-    wire debug_done = done;
-    wire [7:0] debug_data = data;
-
     always @(posedge sys_clk, posedge rst) begin
         if (rst) begin
             state <= IDLE;
@@ -202,27 +108,28 @@ module FSM (
     always @(*) begin
         next = state;
         fnd_data_next = fnd_data_reg;
-        
         case (state)
             IDLE: begin
-                if (!CS) begin  // CS가 활성화(LOW)일 때만 L_BYTE로 전환
+                if (!CS) begin
                     next = L_BYTE;
                 end
             end
             L_BYTE: begin
-                if (!CS && done) begin  // CS가 활성화되고 done이 활성화될 때
+                if (!CS && done) begin
                     fnd_data_next[7:0] = data;
                     next = H_BYTE;
                 end
             end
             H_BYTE: begin
-                if (!CS && done) begin  // CS가 활성화되고 done이 활성화될 때
+                if (!CS && done) begin
                     fnd_data_next[15:8] = data;
                     next = IDLE;
                 end
             end
-            default: next = IDLE;
         endcase
     end
+
 endmodule
+
+
 
