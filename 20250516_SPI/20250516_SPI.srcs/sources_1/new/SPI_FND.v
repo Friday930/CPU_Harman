@@ -32,7 +32,8 @@ module SPI_FND (
         .MISO   (MISO),
         .done   (done),
         .ready  (ready),
-        .SCLK   (SCLK)
+        .SCLK   (SCLK),
+        .CS     (CS)
     );
 
     SPI_Slave_IP U_SPI_Slave_IP (

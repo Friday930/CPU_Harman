@@ -17,7 +17,7 @@ proc create_report { reportName command } {
   }
 }
 namespace eval ::optrace {
-  variable script "C:/CPU_Harman/20250516_SPI/20250516_SPI.runs/impl_1/SPI_FND.tcl"
+  variable script "D:/CPU_Harman/20250516_SPI/20250516_SPI.runs/impl_1/SPI_FND.tcl"
   variable category "vivado_impl"
 }
 
@@ -125,24 +125,25 @@ set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
   set_param chipscope.maxJobs 4
-  set_param synth.incrementalSynthesisCache C:/Users/kccistc/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-8628-DESKTOP-7CFQ9ND/incrSyn
+  set_param synth.incrementalSynthesisCache C:/Users/user/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-15328-DESKTOP-2CUDO2B/incrSyn
+  set_param xicom.use_bs_reader 1
 OPTRACE "create in-memory project" START { }
   create_project -in_memory -part xc7a35tcpg236-1
-  set_property board_part_repo_paths {C:/Users/kccistc/AppData/Roaming/Xilinx/Vivado/2020.2/xhub/board_store/xilinx_board_store} [current_project]
+  set_property board_part_repo_paths {C:/Users/user/AppData/Roaming/Xilinx/Vivado/2020.2/xhub/board_store/xilinx_board_store} [current_project]
   set_property board_part digilentinc.com:basys3:part0:1.1 [current_project]
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir C:/CPU_Harman/20250516_SPI/20250516_SPI.cache/wt [current_project]
-  set_property parent.project_path C:/CPU_Harman/20250516_SPI/20250516_SPI.xpr [current_project]
-  set_property ip_output_repo C:/CPU_Harman/20250516_SPI/20250516_SPI.cache/ip [current_project]
+  set_property webtalk.parent_dir D:/CPU_Harman/20250516_SPI/20250516_SPI.cache/wt [current_project]
+  set_property parent.project_path D:/CPU_Harman/20250516_SPI/20250516_SPI.xpr [current_project]
+  set_property ip_output_repo D:/CPU_Harman/20250516_SPI/20250516_SPI.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet C:/CPU_Harman/20250516_SPI/20250516_SPI.runs/synth_1/SPI_FND.dcp
+  add_files -quiet D:/CPU_Harman/20250516_SPI/20250516_SPI.runs/synth_1/SPI_FND.dcp
 OPTRACE "read constraints: implementation" START { }
-  read_xdc C:/CPU_Harman/20250516_SPI/20250516_SPI.srcs/constrs_1/imports/CPU_Harman/Basys-3-Master.xdc
+  read_xdc D:/CPU_Harman/20250516_SPI/20250516_SPI.srcs/constrs_1/imports/CPU_Harman/Basys-3-Master.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }

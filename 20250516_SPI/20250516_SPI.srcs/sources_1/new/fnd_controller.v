@@ -86,15 +86,27 @@ module bcdtoseg (
     end
 endmodule
 
+// module digit_splitter (
+//     input [15:0] bcd,
+//     output [3:0] digit_1, digit_10, digit_100, digit_1000
+// );
+    
+//     assign digit_1 = bcd % 10;
+//     assign digit_10 = bcd / 10 % 10;
+//     assign digit_100 = bcd / 100 % 10;
+//     assign digit_1000 = bcd / 1000 % 10;
+    
+// endmodule
+
 module digit_splitter (
-    input [8:0] bcd,
+    input [15:0] bcd,  // 8:0에서 15:0으로 수정
     output [3:0] digit_1, digit_10, digit_100, digit_1000
 );
     
     assign digit_1 = bcd % 10;
-    assign digit_10 = bcd / 10 % 10;
-    assign digit_100 = bcd / 100 % 10;
-    assign digit_1000 = bcd / 1000 % 10;
+    assign digit_10 = (bcd / 10) % 10;
+    assign digit_100 = (bcd / 100) % 10;
+    assign digit_1000 = (bcd / 1000) % 10;
     
 endmodule
 

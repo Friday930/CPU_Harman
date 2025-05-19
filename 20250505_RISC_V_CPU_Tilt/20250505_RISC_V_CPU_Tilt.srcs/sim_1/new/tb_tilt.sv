@@ -1094,7 +1094,7 @@ class scoreboard;
       total_cnt++;
       
       // Only handle read operations in this testbench
-      if (!tilt_tr.PWRITE) begin
+      if (!tilt_tr.PWRITE) begin 
         // Read operation
         read_cnt++;
         
