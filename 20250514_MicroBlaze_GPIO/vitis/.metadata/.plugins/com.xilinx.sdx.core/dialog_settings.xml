@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<item key="sdx.custom.platform.repository.locations" value="C:\CPU_Harman\20250514_MicroBlaze_GPIO\vitis\design_1_wrapper\export\design_1_wrapper"/>
+	<item key="sdx.custom.platform.repository.locations" value="C:\CPU_Harman\20250514_MicroBlaze_GPIO\vitis\design_1_wrapper\export\design_1_wrapper;C:\CPU_Harman\20250514_MicroBlaze_GPIO\vitis\design_1_wrapper_1\export\design_1_wrapper_1;C:\CPU_Harman\20250514_MicroBlaze_GPIO\vitis\design_1_wrapper_2\export\design_1_wrapper_2"/>
 </section>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="hello_spi_mk2" location="C:/CPU_Harman/20250514_MicroBlaze_GPIO/vitis/hello_spi_mk2" platform="C:/CPU_Harman/20250514_MicroBlaze_GPIO/vitis/design_1_wrapper_2/export/design_1_wrapper_2/design_1_wrapper_2.xpfm" platformUID="xilinx:basys3::0.0(custom)" systemProject="hello_spi_mk2_system" sysConfig="design_1_wrapper_2" runtime="cpp" cpu="standalone_microblaze_0" cpuInstance="microblaze_0" os="standalone" mssSignature="bede8b0f7c52bb681cf275d563ba5ef9">
+  <configuration name="Debug" id="xilinx.gnu.mb.exe.debug.857305819" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <configuration name="Release" id="xilinx.gnu.mb.exe.release.399245176" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <template appTemplateName="empty_application"/>
+</sdkproject:SdkProject>
