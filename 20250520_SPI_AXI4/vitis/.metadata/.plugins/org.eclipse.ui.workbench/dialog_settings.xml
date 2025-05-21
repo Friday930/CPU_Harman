@@ -12,10 +12,13 @@
 			<item value="org.eclipse.e4.ui.parts"/>
 		</list>
 		<list key="textEntries">
-			<item value="1"/>
+			<item value="2"/>
 		</list>
 		<list key="textArray">
 			<item value="serial"/>
+			<item value="ser"/>
 		</list>
+	</section>
+	<section name="NewWizardAction">
 	</section>
 </section>

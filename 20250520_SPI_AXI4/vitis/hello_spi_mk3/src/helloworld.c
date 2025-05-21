@@ -17,10 +17,10 @@ int main()
 {
     GPSPI->CD = 0b001;
     usleep(100);
-    GPSPI->SOD = 'a';
+    GPSPI->SOD = 126;
     usleep(100);
     GPSPI->CD = 0b000;
     usleep(100);
-    printf("SID: %c\n", GPSPI->SID);
+    printf("SID: %d\n", GPSPI->SID);
     return 0;
 }
